@@ -28,7 +28,7 @@ public class DriveBase {
    public void loop(Gamepad gamepad) {
        double leftFrontPower = (gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
        double leftBackPower = (gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
-       double rightFrontPower = (-gamepad.left_stick_y + gamepad.right_stick_x) - gamepad.left_stick_x;
+       double rightFrontPower = (-gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
        double rightBackPower = (-gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
 
        double powerFraction = FAST_POWER_FRACTION;
