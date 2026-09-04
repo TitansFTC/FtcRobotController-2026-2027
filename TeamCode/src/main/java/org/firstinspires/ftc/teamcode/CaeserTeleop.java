@@ -31,6 +31,10 @@ public void init() {
     driveBase.loop(gamepad1, dashboardTelemetry);
     intake.loop(gamepad1, dashboardTelemetry);
     odometry.loop(dashboardTelemetry);
+    if (gamepad1.x){
+        driveBase.odoMove(0, -50, 0, odometry.curPosX(), odometry.curPosY(), odometry.curPosT(), dashboardTelemetry);
+    }
+
     dashboardTelemetry.update();
 
 }

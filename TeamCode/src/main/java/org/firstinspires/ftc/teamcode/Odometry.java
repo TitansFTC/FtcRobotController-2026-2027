@@ -18,6 +18,7 @@ public class Odometry {
     GoBildaPinpointDriver odo;
     Pose2D pos;
     private IMU imu = null;
+    private int counter =1;
 
     public Odometry(HardwareMap hardwareMap) {
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
@@ -34,6 +35,14 @@ public class Odometry {
     }
 
     public void loop(Telemetry telemetry) {
+
+        counter--;
+        if (counter>0){
+            return;
+        }
+        counter=10;
+
+
         odo.update();
         pos = odo.getPosition();
 
@@ -43,6 +52,24 @@ public class Odometry {
         telemetry.addData("X offset: ", pos.getX(DistanceUnit.INCH));
         telemetry.addData("Y offset: ", pos.getY(DistanceUnit.INCH));
         telemetry.addData("Gyro Heading: ", angle);
+    }
+    public double curPosX(){
+
+        pos = odo.getPosition();
+        double curX=pos.getX(DistanceUnit.INCH);
+        return curX;
+    }
+    public double curPosY(){
+
+        pos = odo.getPosition();
+        double curY=pos.getY(DistanceUnit.INCH);
+        return curY;
+    }
+    public double curPosT(){
+
+        pos = odo.getPosition();
+        double curT=pos.getHeading(AngleUnit.DEGREES);
+        return curT;
     }
 
 
