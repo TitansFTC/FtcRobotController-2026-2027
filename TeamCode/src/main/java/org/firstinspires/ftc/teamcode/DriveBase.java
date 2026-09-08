@@ -160,7 +160,7 @@ public class DriveBase {
                 rel_angle = -0.5;
             }
         } else {
-            rel_angle = ((tar_T - cur_Heading) / 30) * 0.5;
+            rel_angle = ((tar_T - cur_Heading) / 30) * 0.75;
         }
 
         double powerFraction = FAST_POWER_FRACTION;

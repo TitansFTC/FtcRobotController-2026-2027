@@ -73,7 +73,7 @@ public void init() {
     }
     if (!gamepad1.y && count5 ==1){
         count5 =0;
-        if (tarT >-175){
+        if (tarT <175){
             tarT+=5;
         }
         else {
