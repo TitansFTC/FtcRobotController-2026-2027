@@ -16,6 +16,15 @@ public class  CaeserTeleop extends OpMode {
 
     private Odometry odometry = null;
     private Intake intake = null;
+    int count1 =0;
+    int count2=0;
+    int count3=0;
+    int count4=0;
+    int count5=0;
+    int tarX = 0;
+    int tarY=0;
+    int tarT=0;
+
 
 public void init() {
     driveBase = new DriveBase(hardwareMap);
@@ -31,8 +40,52 @@ public void init() {
     driveBase.loop(gamepad1, dashboardTelemetry);
     intake.loop(gamepad1, dashboardTelemetry);
     odometry.loop(dashboardTelemetry);
+    if (gamepad1.dpad_up){
+        count1 =1;
+    }
+    if (!gamepad1.dpad_up && count1 ==1){
+        count1 =0;
+        tarY -=5;
+    }
+    if (gamepad1.dpad_down){
+        count2 =1;
+    }
+    if (!gamepad1.dpad_down && count2 ==1){
+        count2 =0;
+        tarY +=5;
+    }
+    if (gamepad1.dpad_right){
+        count3 =1;
+    }
+    if (!gamepad1.dpad_right && count3 ==1){
+        count3 =0;
+        tarX -=5;
+    }
+    if (gamepad1.dpad_left){
+        count4 =1;
+    }
+    if (!gamepad1.dpad_left && count4 ==1){
+        count4 =0;
+        tarX +=5;
+    }
+    if (gamepad1.y){
+        count5 =1;
+    }
+    if (!gamepad1.y && count5 ==1){
+        count5 =0;
+        if (tarT >-175){
+            tarT+=5;
+        }
+        else {
+            tarT = -175;
+        }
+    }
+    telemetry.addData("TarX", tarX);
+    telemetry.addData("TarY", tarY);
+    telemetry.addData("TarT", tarT);
+
     if (gamepad1.x){
-        driveBase.odoMove(0, -50, 0, odometry.curPosX(), odometry.curPosY(), odometry.curPosT(), dashboardTelemetry);
+        driveBase.odoMove(tarX, tarY, tarT, odometry.curPosX(), odometry.curPosY(), odometry.curPosT(), dashboardTelemetry);
     }
 
     dashboardTelemetry.update();

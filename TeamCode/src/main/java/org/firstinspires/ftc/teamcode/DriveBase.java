@@ -129,7 +129,7 @@ public class DriveBase {
 
 
         // Skip if we have reached target
-        if ((Math.abs(rel_tar_x) <= 7) && (Math.abs(rel_tar_y) <= 7) && (Math.abs(rel_Heading) <= 10)) {
+        if ((Math.abs(rel_tar_x) <= 3) && (Math.abs(rel_tar_y) <= 3) && (Math.abs(rel_Heading) <= 3)) {
             leftFront.setPower(0);
             leftBack.setPower(0);
             rightBack.setPower(0);
@@ -164,23 +164,24 @@ public class DriveBase {
         }
 
         double powerFraction = FAST_POWER_FRACTION;
-        double distanceAway = Math.sqrt(rel_pos_x*rel_pos_x + rel_pos_y*rel_pos_y);
-        if (distanceAway < 6.0) {
+        double distanceAway = Math.sqrt(rel_tar_x*rel_tar_x + rel_tar_y*rel_tar_y);
+        if (distanceAway < 10) {
             powerFraction = Math.max(SLOW_POWER_FRACTION, distanceAway / 10);
         }
 
 
-        double lfp = ((rel_pos_y + -rel_pos_x) + rel_angle);
-        double lbp = ((rel_pos_y +  rel_pos_x) + rel_angle);
-        double rfp = ((-rel_pos_y +  rel_pos_x) - rel_angle);
-        double rbp = ((-rel_pos_y + -rel_pos_x) - rel_angle);
+
+        double lfp = ((rel_pos_y + rel_pos_x) + rel_angle);
+        double lbp = ((rel_pos_y +  -rel_pos_x) + rel_angle);
+        double rfp = ((-rel_pos_y + rel_pos_x) + rel_angle);
+        double rbp = ((-rel_pos_y + -rel_pos_x) + rel_angle);
 
         if ((Math.abs(lfp) >= 1) || (Math.abs(rfp) >= 1) || (Math.abs(lbp) >= 1) || (Math.abs(rbp) >= 1)) {
             double highestPower = Math.max(Math.max(Math.abs(lfp), Math.abs(rfp)), Math.max(Math.abs(rbp), Math.abs(lbp)));
-            lfp = lfp / highestPower;
-            lbp = lbp / highestPower;
-            rfp = rfp / highestPower;
-            rbp = rbp / highestPower;
+            lfp = lfp*powerFraction / highestPower;
+            lbp = lbp*powerFraction / highestPower;
+            rfp = rfp*powerFraction / highestPower;
+            rbp = rbp*powerFraction / highestPower;
         }
 
 
