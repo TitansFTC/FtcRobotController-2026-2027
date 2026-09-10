@@ -85,7 +85,7 @@ public void init() {
     telemetry.addData("TarT", tarT);
 
     if (gamepad1.x){
-        driveBase.odoMove(tarX, tarY, tarT, odometry.curPosX(), odometry.curPosY(), odometry.curPosT(), dashboardTelemetry);
+        boolean Dis = driveBase.odoMove(tarX, tarY, tarT, odometry.curPosX(), odometry.curPosY(), odometry.curPosT(), dashboardTelemetry);
     }
 
     dashboardTelemetry.update();

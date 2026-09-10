@@ -14,6 +14,7 @@ public class DriveBase {
         public static final double SLOW_POWER_FRACTION = 0.2;
         public static final double HALF_POWER_FRACTION = 0.5;
     public static final double[] TARGET_REACHED = {0, 0, 0, 0, 0};
+    public boolean Arrived = false;
 
         private DcMotorEx leftFront = null;
         private DcMotorEx leftBack = null;
@@ -55,7 +56,7 @@ public class DriveBase {
        }
 
 
-    public void odoMove(double tar_pos_X, double tar_pos_Y, double tar_T, double cur_Pos_X, double cur_Pos_Y, double cur_Heading, Telemetry telemetry){
+    public boolean odoMove(double tar_pos_X, double tar_pos_Y, double tar_T, double cur_Pos_X, double cur_Pos_Y, double cur_Heading, Telemetry telemetry){
             /*
 
         rel_tar_X = tar_pos_X - cur_Pos_X;
@@ -134,7 +135,7 @@ public class DriveBase {
             leftBack.setPower(0);
             rightBack.setPower(0);
             rightFront.setPower(0);
-            return;
+            return true;
         }
 
         double beta = 90;
@@ -236,6 +237,7 @@ public class DriveBase {
         telemetry.addData("rbp", rbp);
 
          */
+        return false;
 
 
 
