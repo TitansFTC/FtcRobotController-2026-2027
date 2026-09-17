@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.ServoImpl;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -13,8 +14,11 @@ public class Yeeters {
     double count2 =0;
     double YP = 0;
     private DcMotorEx Yeeter = null;
+    private ServoImpl gate = null;
     public Yeeters(HardwareMap hardwareMap) {
         Yeeter = hardwareMap.get(DcMotorEx.class, "Yeeter");
+        gate = hardwareMap.get(ServoImpl.class, "gate");
+
 
         //Yeeter.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
@@ -38,6 +42,12 @@ public class Yeeters {
         }
         if (gamepad.b){
             Yeeter.setPower(0);
+        }
+        if (gamepad.x){
+            gate.setPosition(.5);
+        }
+        if (gamepad.y){
+            gate.setPosition(0);
         }
     }
 
