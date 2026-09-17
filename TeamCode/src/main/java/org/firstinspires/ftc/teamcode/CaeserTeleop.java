@@ -13,7 +13,7 @@ public class  CaeserTeleop extends OpMode {
     private DriveBase driveBase = null;
     private FtcDashboard dashboard = null;
     private Telemetry dashboardTelemetry = null;
-
+    private Yeeters yeeters = null;
     private Odometry odometry = null;
     private Intake intake = null;
     int count1 =0;
@@ -30,6 +30,7 @@ public void init() {
     driveBase = new DriveBase(hardwareMap);
     intake = new Intake(hardwareMap);
     odometry = new Odometry(hardwareMap);
+    yeeters = new Yeeters(hardwareMap);
     dashboard = FtcDashboard.getInstance();
     dashboardTelemetry = dashboard.getTelemetry();
 
@@ -40,6 +41,7 @@ public void init() {
     driveBase.loop(gamepad1, dashboardTelemetry);
     intake.loop(gamepad1, dashboardTelemetry);
     odometry.loop(dashboardTelemetry);
+    yeeters.loop(gamepad2, dashboardTelemetry);
     if (gamepad1.dpad_up){
         count1 =1;
     }
