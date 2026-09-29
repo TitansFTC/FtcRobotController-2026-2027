@@ -14,47 +14,31 @@ public class DriveBase {
         public static final double HALF_POWER_FRACTION = 0.5;
     public static final double[] TARGET_REACHED = {0, 0, 0, 0, 0};
 
-        private DcMotorEx leftFront = null;
-        private DcMotorEx leftBack = null;
-        private DcMotorEx rightFront = null;
-        private DcMotorEx rightBack = null;
+        private DcMotorEx left = null;
+        private DcMotorEx right = null;
 
         public DriveBase(HardwareMap hardwareMap) {
-            leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
-            leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
-            rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
-            rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
+            left = hardwareMap.get(DcMotorEx.class, "left");
+            right = hardwareMap.get(DcMotorEx.class, "right");
         }
 
-   public void loop(Gamepad gamepad, Telemetry telemetry) {
-       double leftFrontPower = (gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
-       double leftBackPower = (gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
-       double rightFrontPower = (-gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
-       double rightBackPower = (-gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
-
+   public void loop(Gamepad gamepad/*, Telemetry telemetry*/) {
+            double leftPower = (gamepad.left_stick_y - gamepad.right_stick_x);
+            double rightPower = (-gamepad.left_stick_y - gamepad.right_stick_x);
        double powerFraction = FAST_POWER_FRACTION;
        if (gamepad.right_trigger > 0.8) {
            powerFraction = SLOW_POWER_FRACTION;
        }
-       leftFront.setPower(leftFrontPower * powerFraction);
-       leftBack.setPower(leftBackPower * powerFraction);
-       rightFront.setPower(rightFrontPower * powerFraction);
-       rightBack.setPower(rightBackPower * powerFraction);
+       left.setPower(leftPower * powerFraction);
+       right.setPower(rightPower * powerFraction);
 
 
-       telemetry.addData("rightFront", rightFrontPower);
+      // telemetry.addData("rightFront", rightPower);
 
        }
-
-
-
-    
-
     public void stop () {
-        leftFront.setPower(0);
-        leftBack.setPower(0);
-        rightFront.setPower(0);
-        rightBack.setPower(0);
+        left.setPower(0);
+        right.setPower(0);
         }
 
 }
