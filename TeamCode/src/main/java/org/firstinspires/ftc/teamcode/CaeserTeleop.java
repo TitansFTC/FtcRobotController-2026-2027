@@ -1,14 +1,9 @@
 package org.firstinspires.ftc.teamcode;
-
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
-
-
 @TeleOp(name= "CaeserTeleop", group= "Titans TeleOps")
-
 public class  CaeserTeleop extends OpMode {
     private DriveBase driveBase = null;
     private FtcDashboard dashboard = null;
@@ -32,7 +27,7 @@ public void init() {
     odometry = new Odometry(hardwareMap);
     yeeters = new Yeeters(hardwareMap);
     dashboard = FtcDashboard.getInstance();
-    dashboardTelemetry = dashboard.getTelemetry();
+    //dashboardTelemetry = dashboard.getTelemetry();
 
     telemetry.addData("Status", "Initialized");
 }
@@ -93,16 +88,8 @@ public void init() {
     dashboardTelemetry.update();
 
 }
-
-
-
     @Override
     public void stop()  {
     driveBase.stop();
 }
-
 }
-
-
-
-

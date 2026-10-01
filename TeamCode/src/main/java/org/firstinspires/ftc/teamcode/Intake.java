@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+/*package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.CRServoImpl;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -40,22 +40,13 @@ public class Intake {
 
         double intakepower = 0;
             if (gamepad.a) {
-                intakepower = 0.5;
+                intakepower = 0.25;
             }
             if (gamepad.b) {
-                intakepower = -0.5;
+                intakepower = -0.25;
             }
             intake.setPower(intakepower);
+        telemetry.addData("Intake", intakepower);
     }
-
-
-
-
-
-
-
-
-
-
-
 }
+*/
