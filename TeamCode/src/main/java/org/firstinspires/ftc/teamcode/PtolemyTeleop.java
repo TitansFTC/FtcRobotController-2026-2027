@@ -10,7 +10,6 @@ public class PtolemyTeleop extends OpMode {
     private DriveBaseJr driveBase = null;
     private FtcDashboard dashboard = null;
     private Telemetry dashboardTelemetry = null;
-    private HardwareMap hardwareMap = null;
 
     public void init() {
         driveBase = new DriveBaseJr(hardwareMap);
