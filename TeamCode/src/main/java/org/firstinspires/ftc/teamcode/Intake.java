@@ -1,4 +1,4 @@
-/*package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode;
 
 import com.qualcomm.robotcore.hardware.CRServoImpl;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -49,4 +49,3 @@ public class Intake {
         telemetry.addData("Intake", intakepower);
     }
 }
-*/
