@@ -21,9 +21,9 @@ public class DriveBaseJr {
         right = hardwareMap.get(DcMotorEx.class, "right");
     }
 
-    public void loop(Gamepad gamepad/*, Telemetry telemetry*/) {
-        double leftPower = (gamepad.left_stick_y - gamepad.right_stick_x);
-        double rightPower = (-gamepad.left_stick_y - gamepad.right_stick_x);
+    public void loop(Gamepad gamepad, Telemetry telemetry) {
+double leftPower = (+gamepad.left_stick_y +gamepad.right_stick_x * HALF_POWER_FRACTION);
+        double rightPower = (-gamepad.left_stick_y - gamepad.right_stick_x * HALF_POWER_FRACTION);
         double powerFraction = FAST_POWER_FRACTION;
         if (gamepad.right_trigger > 0.8) {
             powerFraction = SLOW_POWER_FRACTION;
