@@ -44,9 +44,11 @@ public class DriveBase {
             rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
-   public void loop(Gamepad gamepad/*, Telemetry telemetry*/) {
-            double leftPower = (gamepad.left_stick_y - gamepad.right_stick_x);
-            double rightPower = (-gamepad.left_stick_y - gamepad.right_stick_x);
+   public void loop(Gamepad gamepad, Telemetry telemetry) {
+       double leftFrontPower = (gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
+       double leftBackPower = (gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
+       double rightFrontPower = (-gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
+       double rightBackPower = (-gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
        double powerFraction = FAST_POWER_FRACTION;
        if (gamepad.right_trigger > 0.8) {
            powerFraction = SLOW_POWER_FRACTION;
@@ -277,8 +279,10 @@ public class DriveBase {
     
 
     public void stop () {
-        left.setPower(0);
-        right.setPower(0);
+        leftFront.setPower(0);
+        leftBack.setPower(0);
+        rightFront.setPower(0);
+        rightBack.setPower(0);
         }
 
 }

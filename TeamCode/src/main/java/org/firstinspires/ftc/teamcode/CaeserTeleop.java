@@ -27,7 +27,7 @@ public void init() {
     odometry = new Odometry(hardwareMap);
     yeeters = new Yeeters(hardwareMap);
     dashboard = FtcDashboard.getInstance();
-    //dashboardTelemetry = dashboard.getTelemetry();
+    dashboardTelemetry = dashboard.getTelemetry();
 
     telemetry.addData("Status", "Initialized");
 }

@@ -40,10 +40,10 @@ public class Intake {
 
         double intakepower = 0;
             if (gamepad.a) {
-                intakepower = 0.25;
+                intakepower = 0.5;
             }
             if (gamepad.b) {
-                intakepower = -0.25;
+                intakepower = -0.5;
             }
             intake.setPower(intakepower);
         telemetry.addData("Intake", intakepower);
