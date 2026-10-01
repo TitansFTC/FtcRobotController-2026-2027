@@ -27,12 +27,21 @@ public class DriveBase {
     double A;
     double C;
     double rel_T;
+    double posRightFront;
+    double posLeftFront;
+    double posRightBack;
+    double posLeftBack;
+
 
         public DriveBase(HardwareMap hardwareMap) {
             leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
             leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
             rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
             rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
+            leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         }
 
    public void loop(Gamepad gamepad, Telemetry telemetry) {
@@ -45,13 +54,35 @@ public class DriveBase {
        if (gamepad.right_trigger > 0.8) {
            powerFraction = SLOW_POWER_FRACTION;
        }
+       if (gamepad.y){
+           leftFrontPower = .2;
+           rightFrontPower=-.2;
+           leftBackPower=.2;
+           rightBackPower=-.2;
+
+       }
+
        leftFront.setPower(leftFrontPower * powerFraction);
        leftBack.setPower(leftBackPower * powerFraction);
        rightFront.setPower(rightFrontPower * powerFraction);
        rightBack.setPower(rightBackPower * powerFraction);
 
+       posRightFront=-rightFront.getCurrentPosition();
+       posLeftFront=leftFront.getCurrentPosition();
+       posRightBack=-rightBack.getCurrentPosition();
+       posLeftBack=leftBack.getCurrentPosition();
+
+
+
+
 
        telemetry.addData("rightFront", rightFrontPower);
+       telemetry.addData("RFpos", posRightFront);
+       telemetry.addData("LFpos", posLeftFront);
+       telemetry.addData("RBpos", posRightBack);
+       telemetry.addData("LBpos", posLeftBack);
+
+
 
        }
 
