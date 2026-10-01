@@ -13,11 +13,10 @@ public class DriveBaseJr {
     public static final double SLOW_POWER_FRACTION = 0.2;
     public static final double HALF_POWER_FRACTION = 0.5;
     public static final double[] TARGET_REACHED = {0, 0, 0, 0, 0};
-
     private DcMotorEx left = null;
     private DcMotorEx right = null;
 
-    public DriveBase(HardwareMap hardwareMap) {
+    public void DriveBase(HardwareMap hardwareMap) {
         left = hardwareMap.get(DcMotorEx.class, "left");
         right = hardwareMap.get(DcMotorEx.class, "right");
     }
