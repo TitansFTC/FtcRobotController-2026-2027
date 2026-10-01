@@ -16,7 +16,7 @@ public class DriveBaseJr {
     private DcMotorEx left = null;
     private DcMotorEx right = null;
 
-    public void DriveBaseJr(HardwareMap hardwareMap) {
+    public DriveBaseJr(HardwareMap hardwareMap) {
         left = hardwareMap.get(DcMotorEx.class, "left");
         right = hardwareMap.get(DcMotorEx.class, "right");
     }

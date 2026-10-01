@@ -2,16 +2,18 @@ package org.firstinspires.ftc.teamcode;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-
 import org.firstinspires.ftc.teamcode.DriveBaseJr;
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 @TeleOp(name= "PtolemyTeleop", group= "Titans TeleOps")
 public class PtolemyTeleop extends OpMode {
-    private DriveBase DriveBaseJr = null;
+    private DriveBaseJr driveBase = null;
     private FtcDashboard dashboard = null;
-    private telemetry dashboardTelemetry = null;
+    private Telemetry dashboardTelemetry = null;
+    private HardwareMap hardwareMap = null;
 
     public void init() {
-        DriveBaseJr = new DriveBaseJr (hardwareMap);
+        driveBase = new DriveBaseJr(hardwareMap);
         dashboard = FtcDashboard.getInstance();
         dashboardTelemetry = dashboard.getTelemetry();
 
@@ -19,11 +21,11 @@ public class PtolemyTeleop extends OpMode {
     }
     @Override
     public void loop()   {
-        DriveBaseJr.loop(gamepad1);
+        driveBase.loop(gamepad1);
         dashboardTelemetry.update();
     }
     @Override
     public void stop()  {
-        DriveBaseJr.stop();
+        driveBase.stop();
     }
 }
