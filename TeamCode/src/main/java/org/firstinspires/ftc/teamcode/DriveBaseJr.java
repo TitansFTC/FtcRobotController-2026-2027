@@ -22,9 +22,9 @@ public class DriveBaseJr {
     }
 
     public void loop(Gamepad gamepad, Telemetry telemetry) {
-double leftPower = (+gamepad.left_stick_y +gamepad.right_stick_x * HALF_POWER_FRACTION);
-        double rightPower = (-gamepad.left_stick_y - gamepad.right_stick_x * HALF_POWER_FRACTION);
-        double powerFraction = FAST_POWER_FRACTION;
+    double leftPower = (+gamepad.left_stick_y -gamepad.right_stick_x * HALF_POWER_FRACTION);
+    double rightPower = (-gamepad.left_stick_y - gamepad.right_stick_x * HALF_POWER_FRACTION);
+    double powerFraction = FAST_POWER_FRACTION;
         if (gamepad.right_trigger > 0.8) {
             powerFraction = SLOW_POWER_FRACTION;
         }

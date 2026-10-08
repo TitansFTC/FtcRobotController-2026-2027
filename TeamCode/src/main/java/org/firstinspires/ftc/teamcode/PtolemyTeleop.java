@@ -3,6 +3,8 @@ import com.acmerobotics.dashboard.FtcDashboard;
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import org.firstinspires.ftc.teamcode.DriveBaseJr;
+
+import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 @TeleOp(name= "PtolemyTeleop", group= "Titans TeleOps")
@@ -20,7 +22,7 @@ public class PtolemyTeleop extends OpMode {
     }
     @Override
     public void loop()   {
-        driveBase.loop(gamepad1);
+        driveBase.loop(gamepad1, telemetry);
         dashboardTelemetry.update();
     }
     @Override
