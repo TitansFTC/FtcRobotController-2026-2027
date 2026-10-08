@@ -10,6 +10,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @TeleOp(name= "PtolemyTeleop", group= "Titans TeleOps")
 public class PtolemyTeleop extends OpMode {
     private DriveBaseJr driveBase = null;
+    private Yeeters yeeters = null;
     private FtcDashboard dashboard = null;
     private Telemetry dashboardTelemetry = null;
 
