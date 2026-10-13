@@ -16,7 +16,10 @@ public class FeedersJr {
     public void loop(Gamepad gamepad, Telemetry telemetry) {
         if (gamepad.a) {
             feedersJr = FAST_POWER_FRACTION;
+        if (gamepad.y){
+            feedersJr = -HALF_POWER_FRACTION;
         }
+      }
     }
     public void stop() {
     }
