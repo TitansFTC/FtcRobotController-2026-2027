@@ -37,4 +37,9 @@ public class FeedersJr {
             sintakeLeft.setPower(sintakeLeftPower);
             sintakeRight.setPower(sintakeRightPower);
     }
+    public void stop()  {
+        double intakePower = 0;
+        double sintakeLeftPower = 0;
+        double sintakeRightPower = 0;
+    }
 }
