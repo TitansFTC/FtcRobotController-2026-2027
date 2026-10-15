@@ -35,7 +35,7 @@ public class PtolemyTeleop extends OpMode {
     @Override
     public void stop()  {
         driveBase.stop();
-        shooterJr.stop();
-        feedersJr.stop();
+        //shooterJr.stop();
+        //feedersJr.stop();
     }
 }
