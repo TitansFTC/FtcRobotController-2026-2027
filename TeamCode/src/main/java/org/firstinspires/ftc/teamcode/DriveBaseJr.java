@@ -18,6 +18,10 @@ public class DriveBaseJr {
         left = hardwareMap.get(DcMotorEx.class, "left");
         right = hardwareMap.get(DcMotorEx.class, "right");
     }
+
+    public static void sleep(int i) {
+    }
+
     public void loop(Gamepad gamepad, Telemetry telemetry) {
         double leftPower = (+gamepad.left_stick_y + gamepad.right_stick_x * HALF_POWER_FRACTION);
         double rightPower = (-gamepad.left_stick_y + gamepad.right_stick_x * HALF_POWER_FRACTION);
@@ -29,6 +33,22 @@ public class DriveBaseJr {
         right.setPower(rightPower * powerFraction);
         telemetry.addData("rightPower", rightPower);
         telemetry.addData("leftPower", leftPower);
+    }
+    public void moveForward(double power, int duration) {
+        left.setPower(power);
+        right.setPower(-power);
+    }
+    public void moveBack(double power, int duration) {
+        left.setPower(-power);
+        right.setPower(power);
+    }
+    public void moveRight(double power, int duration) {
+        left.setPower(-power);
+        right.setPower(-power);
+    }
+    public void moveLeft(double power, int duration) {
+        left.setPower(power);
+        right.setPower(power);
     }
     public void stop() {
         left.setPower(0);

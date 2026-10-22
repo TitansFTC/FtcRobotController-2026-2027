@@ -9,17 +9,28 @@ public class PtolemyAutoShooter extends LinearOpMode {
     public static final double FAST_POWER_FRACTION = 1.0;
     public static final double SLOW_POWER_FRACTION = 0.2;
     public static final double HALF_POWER_FRACTION = 0.5;
-    public void initHardware() {
+    public DriveBaseJr driveBase = null;
+    private void initHardware() {
         telemetry.addData("Status", "Initialized");
     }
-
     @Override
     public void runOpMode() throws InterruptedException {
         initHardware();
         waitForStart();
+
+        driveBase.moveForward(driveBase.HALF_POWER_FRACTION, 500);
+        driveBase.sleep(250);
+        driveBase.moveRight(driveBase.HALF_POWER_FRACTION, 500);
+        driveBase.sleep(250);
+        driveBase.moveForward(driveBase.HALF_POWER_FRACTION, 500);
+        driveBase.sleep(250);
+        driveBase.moveRight(driveBase.HALF_POWER_FRACTION, 500);
+        driveBase.sleep(250);
+        driveBase.moveForward(driveBase.HALF_POWER_FRACTION, 500);
+        driveBase.sleep(250);
+        driveBase.moveRight(driveBase.HALF_POWER_FRACTION, 500);
+        driveBase.sleep(250);
+
     }
 
-DriveBaseJr.moveBackward(DriveBaseJr.HALF_POWER_FRACTION);
-        DriveBaseJr.stop();
-    sleep(250);
 }
