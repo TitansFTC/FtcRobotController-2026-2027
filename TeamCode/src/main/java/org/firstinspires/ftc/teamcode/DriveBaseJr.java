@@ -35,20 +35,25 @@ public class DriveBaseJr {
         telemetry.addData("leftPower", leftPower);
     }
     public void moveForward(double power, int duration) {
-        left.setPower(power);
-        right.setPower(-power);
+        left.setPower(-power);
+        right.setPower(power);
+        sleep(duration);
     }
     public void moveBack(double power, int duration) {
-        left.setPower(-power);
-        right.setPower(power);
+        left.setPower(power);
+        right.setPower(-power);
+        sleep(duration);
     }
     public void moveRight(double power, int duration) {
-        left.setPower(-power);
-        right.setPower(-power);
-    }
-    public void moveLeft(double power, int duration) {
         left.setPower(power);
         right.setPower(power);
+        sleep(duration);
+    }
+    public void moveLeft(double power, int duration) {
+        left.setPower(-power);
+        right.setPower(-power);
+        sleep(duration);
+
     }
     public void stop() {
         left.setPower(0);
