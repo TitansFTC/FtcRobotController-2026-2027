@@ -18,10 +18,8 @@ public class DriveBaseJr {
         left = hardwareMap.get(DcMotorEx.class, "left");
         right = hardwareMap.get(DcMotorEx.class, "right");
     }
-
     public static void sleep(int i) {
     }
-
     public void loop(Gamepad gamepad, Telemetry telemetry) {
         double leftPower = (+gamepad.left_stick_y + gamepad.right_stick_x * HALF_POWER_FRACTION);
         double rightPower = (-gamepad.left_stick_y + gamepad.right_stick_x * HALF_POWER_FRACTION);
