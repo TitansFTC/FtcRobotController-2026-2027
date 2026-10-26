@@ -19,7 +19,6 @@ public class Odometry {
     Pose2D pos;
     private IMU imu = null;
     private int counter =1;
-
    public Odometry(HardwareMap hardwareMap) {
         RevHubOrientationOnRobot.LogoFacingDirection logoDirection = RevHubOrientationOnRobot.LogoFacingDirection.UP;
         RevHubOrientationOnRobot.UsbFacingDirection usbDirection = RevHubOrientationOnRobot.UsbFacingDirection.FORWARD;
