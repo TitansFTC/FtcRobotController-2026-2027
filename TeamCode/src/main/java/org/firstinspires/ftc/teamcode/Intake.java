@@ -28,10 +28,10 @@ public class Intake {
 
     public void loop (Gamepad gamepad, Telemetry telemetry) {
         double spinnyPower =0;
-        if (gamepad.right_bumper){
+        if (gamepad.left_bumper){
             spinnyPower=1;
         }
-        if (gamepad.left_bumper){
+        if (gamepad.right_bumper){
             spinnyPower=-1;
         }
 
@@ -39,10 +39,10 @@ public class Intake {
         spinnyL.setPower(spinnyPower);
 
         double intakepower = 0;
-            if (gamepad.a) {
+            if (gamepad.left_bumper) {
                 intakepower = 0.5;
             }
-            if (gamepad.b) {
+            if (gamepad.right_bumper) {
                 intakepower = -0.5;
             }
             intake.setPower(intakepower);
