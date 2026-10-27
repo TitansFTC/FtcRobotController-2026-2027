@@ -31,6 +31,8 @@ public class DriveBase {
     double posLeftFront;
     double posRightBack;
     double posLeftBack;
+    public static void sleep(int i) {
+    }
 
 
         public DriveBase(HardwareMap hardwareMap) {
@@ -273,7 +275,34 @@ public class DriveBase {
 
 
     }
-
+    public void moveForward(double power, int duration) {
+        leftFront.setPower(-power);
+        leftBack.setPower(-power);
+        rightFront.setPower(power);
+        rightBack.setPower(power);
+        sleep(duration);
+    }
+    public void moveBack(double power, int duration) {
+        leftFront.setPower(-power);
+        leftBack.setPower(-power);
+        rightFront.setPower(power);
+        rightBack.setPower(power);
+        sleep(duration);
+    }
+    public void moveLeft(double power, int duration) {
+        leftFront.setPower(-power);
+        leftBack.setPower(-power);
+        rightFront.setPower(power);
+        rightBack.setPower(power);
+        sleep(duration);
+    }
+    public void moveRight(double power, int duration) {
+        leftFront.setPower(-power);
+        leftBack.setPower(-power);
+        rightFront.setPower(power);
+        rightBack.setPower(power);
+        sleep(duration);
+    }
 
 
     
