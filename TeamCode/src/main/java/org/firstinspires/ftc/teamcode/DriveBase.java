@@ -47,26 +47,33 @@ public class DriveBase {
         }
 
    public void loop(Gamepad gamepad, Telemetry telemetry) {
-       double leftFrontPower = (gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
-       double leftBackPower = (gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
-       double rightFrontPower = (-gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
-       double rightBackPower = (-gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
+       double leftFrontPower = (gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
+       double leftBackPower = (gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
+       double rightFrontPower = (-gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
+       double rightBackPower = (-gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
        double powerFraction = FAST_POWER_FRACTION;
        if (gamepad.right_trigger > 0.8) {
            powerFraction = SLOW_POWER_FRACTION;
        }
        if (gamepad.y){
-           leftFrontPower = .2;
-           rightFrontPower=-.2;
-           leftBackPower=.2;
-           rightBackPower=-.2;
+           leftFrontPower*=500;
+           leftBackPower+=500;
+           rightFrontPower*=500;
+           rightBackPower*=500;
+           leftFront.setVelocity(leftFrontPower);
+           leftBack.setVelocity(leftBackPower);
+           rightFront.setVelocity(rightFrontPower);
+           rightBack.setVelocity(rightBackPower);
 
+       }else {
+
+
+           leftFront.setPower(leftFrontPower * powerFraction);
+           leftBack.setPower(leftBackPower * powerFraction);
+           rightFront.setPower(rightFrontPower * powerFraction);
+           rightBack.setPower(rightBackPower * powerFraction);
        }
 
-       leftFront.setPower(leftFrontPower * powerFraction);
-       leftBack.setPower(leftBackPower * powerFraction);
-       rightFront.setPower(rightFrontPower * powerFraction);
-       rightBack.setPower(rightBackPower * powerFraction);
 
        posRightFront=-rightFront.getCurrentPosition();
        posLeftFront=leftFront.getCurrentPosition();

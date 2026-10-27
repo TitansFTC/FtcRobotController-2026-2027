@@ -34,7 +34,7 @@ public void init() {
 @Override
     public void loop()   {
     driveBase.loop(gamepad1, dashboardTelemetry);
-    intake.loop(gamepad1, dashboardTelemetry);
+    intake.loop(gamepad2, dashboardTelemetry);
     odometry.loop(dashboardTelemetry);
     yeeters.loop(gamepad2, dashboardTelemetry);
     if (gamepad1.dpad_up){
