@@ -60,10 +60,9 @@ public class Yeeters {
         if (gamepad.aWasPressed()){
             yeeterActive=!yeeterActive;
         }
-
         if (yeeterActive) {                  //Fix Swerve
             Yeeter.setVelocity(yeeterTargetVelocity);
-            Yeeter2.setVelocity(-yeeterTargetVelocity);
+            Yeeter2.setVelocity(-yeeterTargetVelocity*0.50);
         } else {
             Yeeter.setVelocity(0);
             Yeeter2.setVelocity(0);

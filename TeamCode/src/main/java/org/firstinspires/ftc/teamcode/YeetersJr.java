@@ -21,8 +21,8 @@ public class YeetersJr {
         spinner = hardwareMap.get(CRServoImpl.class, "spinner");
     }
     public void loop(Gamepad gamepad, Telemetry telemetry) {
-       double launcherPower = NO_POWER_FRACTION;
-       double spinnerPower = NO_POWER_FRACTION;
+       double launcherPower = 0;
+       double spinnerPower = 0;
         if (gamepad.b){
            launcherPower = HALF_POWER_FRACTION;
            spinnerPower = HALF_POWER_FRACTION;
