@@ -24,9 +24,11 @@ public class YeetersJr {
        double launcherPower = NO_POWER_FRACTION;
        double spinnerPower = NO_POWER_FRACTION;
         if (gamepad.b){
-           launcherPower = FAST_POWER_FRACTION;
+           launcherPower = HALF_POWER_FRACTION;
            spinnerPower = HALF_POWER_FRACTION;
         }
+        launcher.setPower(launcherPower);
+        spinner.setPower(spinnerPower);
     }
     public void stop() {
         launcher.setPower(NO_POWER_FRACTION);
