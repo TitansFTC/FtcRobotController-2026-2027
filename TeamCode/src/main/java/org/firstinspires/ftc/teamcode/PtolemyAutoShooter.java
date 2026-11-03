@@ -18,8 +18,10 @@ public class PtolemyAutoShooter extends LinearOpMode {
 
     public Duration duration = null;
     public DriveBaseJr driveBase = null;
+    public YeetersJr yeetersJr = null;
     private void initHardware() {
         driveBase = new DriveBaseJr(hardwareMap);
+        yeetersJr = new YeetersJr(hardwareMap);
         telemetry.addData("Status", "Initialized");
     }
     @Override
@@ -27,7 +29,10 @@ public class PtolemyAutoShooter extends LinearOpMode {
         initHardware();
         waitForStart();
         telemetry.addData("Status", "Starting");
-
+        //Start Auto
+        yeetersJr.fire(yeetersJr.SEMI_FAST_POWER_FRACTION, 3000);
+        telemetry.addData("Status", "Moved Forward");
+        sleep(3000);
         driveBase.moveForward(driveBase.SLOW_POWER_FRACTION, 1000);
         telemetry.addData("Status", "Moved Forward");
         sleep(1000);
@@ -36,7 +41,7 @@ public class PtolemyAutoShooter extends LinearOpMode {
         telemetry.addData("Status", "Moved Forward");
         sleep(280);
         driveBase.stop();
-        driveBase.moveLeft(driveBase.NO_POWER_FRACTION, 300);
+        driveBase.moveLeft(driveBase.NO_POWER_FRACTION,300);
         telemetry.addData("Status", "Moved Forward");
         sleep(300);
         driveBase.stop();

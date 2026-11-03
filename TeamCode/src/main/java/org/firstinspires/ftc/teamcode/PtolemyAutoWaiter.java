@@ -18,8 +18,11 @@ public class PtolemyAutoWaiter extends LinearOpMode {
 
     public Duration duration = null;
     public DriveBaseJr driveBase = null;
+    public YeetersJr yeetersJr = null;
     private void initHardware() {
         driveBase = new DriveBaseJr(hardwareMap);
+        yeetersJr = new YeetersJr(hardwareMap);
+
         telemetry.addData("Status", "Initialized");
     }
     @Override
@@ -32,6 +35,9 @@ public class PtolemyAutoWaiter extends LinearOpMode {
         telemetry.addData("Status", "Moved Forward");
         sleep(10000);
         driveBase.stop();
+        yeetersJr.fire(yeetersJr.SEMI_FAST_POWER_FRACTION, 3000);
+        telemetry.addData("Status", "Moved Forward");
+        sleep(3000);
         driveBase.moveForward(driveBase.SLOW_POWER_FRACTION,2000);
         telemetry.addData("Status", "Moved Forward");
         sleep(2000);

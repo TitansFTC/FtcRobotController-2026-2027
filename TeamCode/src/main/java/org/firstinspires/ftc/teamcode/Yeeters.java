@@ -16,8 +16,9 @@ public class Yeeters {
     private DcMotorEx Yeeter2 = null;
     private ServoImpl gate = null;
     private CRServoImpl feeder = null;
-    private static final double kP = 75;
+    private static final double kP = 100;
     private static final double kI = 10;
+
     private static final double kD = 0.0;
     private static double kF = 13;
     private static final double EPSILON = 0.03;
@@ -26,7 +27,7 @@ public class Yeeters {
     private static final double yeeterNearVelocity = 865;
     private static final double yeeterFarVelocity = 1000;
     private boolean yeeterActive = false;
-    private double yeeterTargetVelocity = 1250;
+    private double yeeterTargetVelocity = 1350;
     private boolean yeeterManual = false;
     public Yeeters(HardwareMap hardwareMap) {
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(kP, kI, 0, kF);
