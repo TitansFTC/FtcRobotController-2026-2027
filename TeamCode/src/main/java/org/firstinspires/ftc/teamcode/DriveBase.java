@@ -47,12 +47,12 @@ public class DriveBase {
         }
 
    public void loop(Gamepad gamepad, Telemetry telemetry) {
-       double leftFrontPower = (gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
-       double leftBackPower = (gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
-       double rightFrontPower = (-gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
-       double rightBackPower = (-gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
+       double leftFrontPower = (gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x*.75;
+       double leftBackPower = (gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x*.75;
+       double rightFrontPower = (-gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x*.75;
+       double rightBackPower = (-gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x*.75;
        double powerFraction = FAST_POWER_FRACTION;
-       if (gamepad.right_trigger > 0.8) {
+       if (gamepad.right_bumper) {
            powerFraction = SLOW_POWER_FRACTION;
        }
        if (gamepad.y){

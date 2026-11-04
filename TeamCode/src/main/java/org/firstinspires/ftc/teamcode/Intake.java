@@ -28,10 +28,10 @@ public class Intake {
 
     public void loop (Gamepad gamepad, Telemetry telemetry) {
         double spinnyPower =0;
-        if (gamepad.left_bumper){
+        if (gamepad.a){
             spinnyPower=1;
         }
-        if (gamepad.right_bumper){
+        if (gamepad.left_bumper){
             spinnyPower=-1;
         }
 
