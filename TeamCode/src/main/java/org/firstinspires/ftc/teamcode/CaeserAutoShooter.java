@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import
+        com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.time.Duration;
@@ -28,6 +29,7 @@ public class CaeserAutoShooter extends LinearOpMode {
         telemetry.addData("Status", "Moved Forward");
         sleep(1000);
         driveBase.stop();
+
         driveBase.moveLeft(driveBase.HALF_POWER_FRACTION, 280);
         telemetry.addData("Status", "Moved Forward");
         sleep(280);
