@@ -101,5 +101,9 @@ public class Yeeters {
         return (Math.abs (Yeeter.getVelocity()- yeeterTargetVelocity) <EPSILON * yeeterTargetVelocity) &&
                 (Math.abs (Yeeter2.getVelocity()- yeeterTargetVelocity) <EPSILON * yeeterTargetVelocity);
     }
+    public void startYeeters(){
+        Yeeter.setVelocity(1280);
+    }
+    
 
 }

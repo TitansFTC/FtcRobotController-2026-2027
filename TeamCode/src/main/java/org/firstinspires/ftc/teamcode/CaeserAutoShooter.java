@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode;
 import
         com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import java.time.Duration;
 
@@ -15,8 +17,14 @@ public class CaeserAutoShooter extends LinearOpMode {
 
     public Duration duration = null;
     public DriveBaseJr driveBase = null;
+    public Yeeters Yeeter = null;
+    private static final double kP = 100;
+    private static final double kI = 10;
+    private static double kF = 13;
     private void initHardware() {
+
         driveBase = new DriveBaseJr(hardwareMap);
+        Yeeter = new Yeeters(hardwareMap);
         telemetry.addData("Status", "Initialized");
     }
     @Override
@@ -29,7 +37,7 @@ public class CaeserAutoShooter extends LinearOpMode {
         telemetry.addData("Status", "Moved Forward");
         sleep(1000);
         driveBase.stop();
-
+        Yeeter.setVelocity();
         driveBase.moveLeft(driveBase.HALF_POWER_FRACTION, 280);
         telemetry.addData("Status", "Moved Forward");
         sleep(280);
