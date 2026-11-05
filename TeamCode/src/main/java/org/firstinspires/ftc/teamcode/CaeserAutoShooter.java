@@ -21,8 +21,8 @@ public class CaeserAutoShooter extends LinearOpMode {
     private static final double kP = 100;
     private static final double kI = 10;
     private static double kF = 13;
-    private void initHardware() {
 
+    private void initHardware() {
         driveBase = new DriveBaseJr(hardwareMap);
         Yeeter = new Yeeters(hardwareMap);
         telemetry.addData("Status", "Initialized");
@@ -32,12 +32,16 @@ public class CaeserAutoShooter extends LinearOpMode {
         initHardware();
         waitForStart();
         telemetry.addData("Status", "Starting");
-
+        Yeeter.stopFeed();
         driveBase.moveForward(driveBase.SLOW_POWER_FRACTION, 1000);
         telemetry.addData("Status", "Moved Forward");
         sleep(1000);
         driveBase.stop();
-        Yeeter.setVelocity();
+        Yeeter.startYeeters();
+        sleep(3000);
+        Yeeter.feed();
+        sleep(4000);
+        Yeeter.stopFeed();
         driveBase.moveLeft(driveBase.HALF_POWER_FRACTION, 280);
         telemetry.addData("Status", "Moved Forward");
         sleep(280);

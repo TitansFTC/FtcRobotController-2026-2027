@@ -210,11 +210,17 @@ public class DriveBase {
         }
 
 
-
+/*
         double lfp = ((rel_pos_y + rel_pos_x) + rel_angle);
         double lbp = ((rel_pos_y +  -rel_pos_x) + rel_angle);
         double rfp = ((-rel_pos_y + rel_pos_x) + rel_angle);
         double rbp = ((-rel_pos_y + -rel_pos_x) + rel_angle);
+
+ */
+        double lfp = ((rel_pos_y +  -rel_pos_x) + rel_angle);
+        double lbp = ((rel_pos_y +  -rel_pos_x) + -rel_angle);
+        double rfp = ((-rel_pos_y + -rel_pos_x) + rel_angle);
+        double rbp = ((-rel_pos_y + -rel_pos_x) + -rel_angle);
 
         if ((Math.abs(lfp) >= 1) || (Math.abs(rfp) >= 1) || (Math.abs(lbp) >= 1) || (Math.abs(rbp) >= 1)) {
             double highestPower = Math.max(Math.max(Math.abs(lfp), Math.abs(rfp)), Math.max(Math.abs(rbp), Math.abs(lbp)));

@@ -104,6 +104,17 @@ public class Yeeters {
     public void startYeeters(){
         Yeeter.setVelocity(1280);
     }
+    public void stopYeeters(){
+        Yeeter.setVelocity(0);
+    }
+    public void feed(){
+        feeder.setPower(-1);
+    }
+    public void stopFeed(){
+        feeder.setPower(1);
+    }
+
+
     
 
 }
