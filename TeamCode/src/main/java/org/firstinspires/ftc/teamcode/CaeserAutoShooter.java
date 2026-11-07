@@ -37,7 +37,6 @@ public class CaeserAutoShooter extends LinearOpMode {
         telemetry.addData("Status", "Moved Forward");
         sleep(1000);
         driveBase.stop();
-        Yeeter.setVelocity();
         driveBase.moveLeft(driveBase.HALF_POWER_FRACTION, 280);
         telemetry.addData("Status", "Moved Forward");
         sleep(280);

@@ -11,14 +11,14 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 @TeleOp(name= "PtolemyTeleop", group= "Titans TeleOps")
 public class PtolemyTeleop extends OpMode {
     private DriveBaseJr driveBase = null;
-    private YeetersJr YeetersJr = null;
+    private YeetersJr yeetersJr = null;
     private FeedersJr feedersJr = null;
     private FtcDashboard dashboard = null;
     private Telemetry dashboardTelemetry = null;
     public void init() {
         driveBase = new DriveBaseJr(hardwareMap);
         feedersJr = new FeedersJr(hardwareMap);
-        YeetersJr = new YeetersJr(hardwareMap);
+        yeetersJr = new YeetersJr(hardwareMap);
         dashboard = FtcDashboard.getInstance();
         dashboardTelemetry = dashboard.getTelemetry();
         telemetry.addData("Status", "Initialized");
@@ -26,16 +26,16 @@ public class PtolemyTeleop extends OpMode {
     @Override
     public void loop()   {
         driveBase.loop(gamepad1, telemetry);
-        dashboardTelemetry.update();
-        YeetersJr.loop(gamepad1, telemetry);
-        dashboardTelemetry.update();
+        yeetersJr.loop(gamepad1, telemetry);
         feedersJr.loop(gamepad1, telemetry);
+
         dashboardTelemetry.update();
+        telemetry.update();
     }
     @Override
     public void stop()  {
         driveBase.stop();
-        YeetersJr.stop();
+        yeetersJr.stop();
         feedersJr.stop();
     }
 }

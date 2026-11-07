@@ -10,6 +10,7 @@ public class  CaeserTeleop extends OpMode {
     private Telemetry dashboardTelemetry = null;
     private Yeeters yeeters = null;
     private Odometry odometry = null;
+    private Feeders feeders = null;
     private Intake intake = null;
     int count1 =0;
     int count2=0;
@@ -26,6 +27,8 @@ public void init() {
     intake = new Intake(hardwareMap);
     odometry = new Odometry(hardwareMap);
     yeeters = new Yeeters(hardwareMap);
+    feeders = new Feeders(hardwareMap);
+
     dashboard = FtcDashboard.getInstance();
     dashboardTelemetry = dashboard.getTelemetry();
 
@@ -37,59 +40,15 @@ public void init() {
     intake.loop(gamepad2, dashboardTelemetry);
     odometry.loop(dashboardTelemetry);
     yeeters.loop(gamepad2, dashboardTelemetry);
-    if (gamepad1.dpad_up){
-        count1 =1;
-    }
-    if (!gamepad1.dpad_up && count1 ==1){
-        count1 =0;
-        tarY -=5;
-    }
-    if (gamepad1.dpad_down){
-        count2 =1;
-    }
-    if (!gamepad1.dpad_down && count2 ==1){
-        count2 =0;
-        tarY +=5;
-    }
-    if (gamepad1.dpad_right){
-        count3 =1;
-    }
-    if (!gamepad1.dpad_right && count3 ==1){
-        count3 =0;
-        tarX -=5;
-    }
-    if (gamepad1.dpad_left){
-        count4 =1;
-    }
-    if (!gamepad1.dpad_left && count4 ==1){
-        count4 =0;
-        tarX +=5;
-    }
-    if (gamepad1.y){
-        count5 =1;
-    }
-    if (!gamepad1.y && count5 ==1){
-        count5 =0;
-        if (tarT <175){
-            tarT+=5;
-        }
-        else {
-            tarT = -175;
-        }
-    }
-    telemetry.addData("TarX", tarX);
-    telemetry.addData("TarY", tarY);
-    telemetry.addData("TarT", tarT);
-
-    if (gamepad1.x){
-        boolean Dis = driveBase.odoMove(tarX, tarY, tarT, odometry.curPosX(), odometry.curPosY(), odometry.curPosT(), dashboardTelemetry);
-    }
+    feeders.loop(gamepad2, dashboardTelemetry);
 
     dashboardTelemetry.update();
-
 }
     @Override
     public void stop()  {
-    driveBase.stop();
-}
+        driveBase.stop();
+        intake.stop();
+        yeeters.stop();
+        feeders.stop();
+    }
 }
