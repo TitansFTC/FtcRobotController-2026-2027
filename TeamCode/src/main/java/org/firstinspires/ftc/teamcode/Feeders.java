@@ -22,6 +22,15 @@ public class Feeders {
             feeder.setPower(BACKWARD_POWER);
         }
     }
+
+    public void backwards() {
+        feeder.setPower(BACKWARD_POWER);
+    }
+
+    public void forwards() {
+        feeder.setPower(FORWARD_POWER);
+    }
+
     public void stop()  {
        feeder.setPower(0);
     }
