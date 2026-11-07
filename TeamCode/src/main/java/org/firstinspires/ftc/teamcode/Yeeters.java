@@ -14,7 +14,6 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class Yeeters {
     double YP = 0;
     private DcMotorEx yeeter = null;
-    private CRServoImpl feeder = null;
     private static final double kP = 100;
     private static final double kI = 10;
     private static final double kD = 0.0;
@@ -26,15 +25,12 @@ public class Yeeters {
     private static final double yeeterNearVelocity = 865;
     private static final double yeeterFarVelocity = 1000;
 
-
     private boolean yeeterActive = false;
     private double yeeterTargetVelocity = 1280;
 
-    private boolean yeeterManual = false;
     public Yeeters(HardwareMap hardwareMap) {
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(kP, kI, 0, kF);
         yeeter = hardwareMap.get(DcMotorEx.class, "Yeeter");
-        feeder =hardwareMap.get(CRServoImpl.class, "feeder");
         yeeter.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         yeeter.setPIDFCoefficients(DcMotorEx.RunMode.RUN_USING_ENCODER, pidfCoefficients);
 
@@ -47,7 +43,7 @@ public class Yeeters {
         }
 
         if (gamepad.dpadDownWasPressed()){
-            yeeterTargetVelocity-=10;
+            yeeterTargetVelocity -= 10;
         }
 
         // Toggle Yeeter
@@ -55,17 +51,12 @@ public class Yeeters {
             yeeterActive = !yeeterActive;
         }
 
-        if (yeeterActive) {                  //Fix Swerve
+        if (yeeterActive) {
             yeeter.setVelocity(yeeterTargetVelocity);
         } else {
             yeeter.setVelocity(0);
         }
 
-        if (gamepad.b){
-            feeder.setPower(-1);
-        }else{
-            feeder.setPower(1);
-        }
         telemetry.addData("yeeterTargetVelocity", yeeterTargetVelocity);
         telemetry.addData("yeeterVelocity", yeeter.getVelocity());
     }
@@ -76,7 +67,11 @@ public class Yeeters {
     public boolean isReady() {
         return (Math.abs(yeeter.getVelocity()- yeeterTargetVelocity) < EPSILON * yeeterTargetVelocity);
     }
-    public void startYeeters(){
+    public void startYeeters() {
         yeeter.setVelocity(yeeterTargetVelocity);
+    }
+
+    public void stop() {
+        yeeter.setPower(0);
     }
 }

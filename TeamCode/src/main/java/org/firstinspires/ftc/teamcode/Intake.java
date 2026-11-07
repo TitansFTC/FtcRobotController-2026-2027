@@ -13,39 +13,29 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 public class Intake {
     private DcMotorEx intake = null;
-    private CRServoImpl spinnyL = null;
-    private CRServoImpl spinnyR = null;
 
     public Intake(HardwareMap hardwareMap) {
         intake = hardwareMap.get(DcMotorEx.class, "intake");
-        spinnyL = hardwareMap.get(CRServoImpl.class, "spinnyL");
-        spinnyR = hardwareMap.get(CRServoImpl.class, "spinnyR");
-
         intake.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
     }
-    public static final double FAST_POWER_FRACTION = 1.0;
-    public static final double SLOW_POWER_FRACTION = 0.2;
+    public static final double OUTWARD_POWER = 0.5;
+    public static final double INWARD_POWER = -0.5;
 
     public void loop (Gamepad gamepad, Telemetry telemetry) {
-        double spinnyPower =0;
-        if (gamepad.a){
-            spinnyPower=1;
-        }
-        if (gamepad.left_bumper){
-            spinnyPower=-1;
-        }
-
-        spinnyR.setPower(-spinnyPower);
-        spinnyL.setPower(spinnyPower);
-
         double intakepower = 0;
-            if (gamepad.left_bumper) {
-                intakepower = 0.5;
-            }
-            if (gamepad.right_bumper) {
-                intakepower = -0.5;
-            }
-            intake.setPower(intakepower);
+        if (gamepad.left_bumper) {
+            intakepower = OUTWARD_POWER;
+        }
+
+        if (gamepad.right_bumper) {
+            intakepower = INWARD_POWER;
+        }
+
+        intake.setPower(intakepower);
         telemetry.addData("Intake", intakepower);
+    }
+
+    public void stop() {
+        intake.setPower(0);
     }
 }
