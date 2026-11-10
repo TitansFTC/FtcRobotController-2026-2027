@@ -1,0 +1,124 @@
+package org.firstinspires.ftc.teamcode;
+import android.util.Size;
+
+import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.Servo;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
+import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class Webcam {
+
+    private AprilTagProcessor aprilTagProcessor;
+    private VisionPortal visionPortal;
+    private List<AprilTagDetection> detectedTags = new ArrayList<>();
+    private Telemetry telemetry;
+    private Servo rgbIndicator;
+    private double targetDistance = 0;
+    private double targetBearing = 180;
+
+    public Webcam(HardwareMap hwMap, Telemetry telemetry){
+        this.telemetry=telemetry;
+        aprilTagProcessor=new AprilTagProcessor.Builder()
+                .setDrawTagID(true)
+                .setDrawTagOutline(true)
+                .setDrawAxes(true)
+                .setDrawCubeProjection(true)
+                .setOutputUnits(DistanceUnit.INCH, AngleUnit.DEGREES)
+                .build();
+        VisionPortal.Builder builder = new VisionPortal.Builder();
+        builder.setCamera(hwMap.get(WebcamName.class, "Webcam 1"));
+        builder.setCameraResolution(new Size(640, 480));
+        builder.addProcessor(aprilTagProcessor);
+        visionPortal = builder.build();
+
+        rgbIndicator = hwMap.get(Servo.class, "rgbIndicator");
+    }
+
+    public List<AprilTagDetection> getDetectedTags(){
+        return detectedTags;
+    }
+
+    public void displayDetectionTelemetry(AprilTagDetection detectedId){
+        if (detectedId==null){return;}
+        if (detectedId.metadata != null) {
+            telemetry.addLine(String.format("\n==== (ID %d) %s", detectedId.id, detectedId.metadata.name));
+            telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detectedId.ftcPose.x, detectedId.ftcPose.y, detectedId.ftcPose.z));
+            telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detectedId.ftcPose.pitch, detectedId.ftcPose.roll, detectedId.ftcPose.yaw));
+            telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detectedId.ftcPose.range, detectedId.ftcPose.bearing, detectedId.ftcPose.elevation));
+        } else {
+            telemetry.addLine(String.format("\n==== (ID %d) Unknown", detectedId.id));
+            telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detectedId.center.x, detectedId.center.y));
+        }
+    }
+
+    public AprilTagDetection getTagBySpecificId(int id){
+        for(AprilTagDetection detection: detectedTags){
+            if(detection.id==id){
+                return detection;
+            }
+        }
+        return null;
+    }
+
+    public void loop(Telemetry telemetry) {
+        // Update detected tags
+        detectedTags=aprilTagProcessor.getDetections();
+
+        targetDistance = 0;
+        targetBearing = 180;
+
+        for(AprilTagDetection detection: detectedTags){
+            try {
+                //red goal: 24, blue goal: 20
+                if (detection.id == 24 || detection.id == 20) {
+                    targetDistance = detection.ftcPose.y;
+                    targetBearing = detection.ftcPose.bearing;
+                }
+
+                telemetry.addData(Integer.toString(detection.id), String.format("XYZB %6.1f %6.1f %6.1f %6.1f", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z, detection.ftcPose.bearing));
+            } catch (Exception e) {
+                //do nothing
+            }
+        }
+
+        // Control RGB
+        if (targetDistance > 0) {
+            if (Math.abs(targetBearing) < 2) {
+                rgbIndicator.setPosition(0.500); // Green
+            } else {
+                if (targetBearing>0){
+                    rgbIndicator.setPosition(0.611);
+                }else {
+                    rgbIndicator.setPosition(0.3); // Yellow
+                }
+            }
+        } else {
+            rgbIndicator.setPosition(0.0); // Black
+        }
+    }
+
+    public double getTargetDistance() {
+        return targetDistance;
+    }
+    public void stop(){
+        if (visionPortal != null){
+            visionPortal.close();
+        }
+    }
+
+    public double getTargetBearing(){
+        return targetBearing;
+    }
+
+
+}
+
