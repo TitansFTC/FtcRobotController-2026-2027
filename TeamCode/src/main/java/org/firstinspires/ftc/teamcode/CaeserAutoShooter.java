@@ -16,15 +16,17 @@ public class CaeserAutoShooter extends LinearOpMode {
 
 
     public Duration duration = null;
-    public DriveBaseJr driveBase = null;
+    public DriveBase driveBase = null;
     public Yeeters Yeeter = null;
+    public Feeders Feeder = null;
     private static final double kP = 100;
     private static final double kI = 10;
     private static double kF = 13;
 
     private void initHardware() {
-        driveBase = new DriveBaseJr(hardwareMap);
+        driveBase = new DriveBase(hardwareMap);
         Yeeter = new Yeeters(hardwareMap);
+        Feeder = new Feeders(hardwareMap);
         telemetry.addData("Status", "Initialized");
     }
     @Override
@@ -32,16 +34,18 @@ public class CaeserAutoShooter extends LinearOpMode {
         initHardware();
         waitForStart();
         telemetry.addData("Status", "Starting");
-        Yeeter.stopFeed();
-        driveBase.moveForward(driveBase.SLOW_POWER_FRACTION, 1000);
-        telemetry.addData("Status", "Moved Forward");
+        Yeeter.stop();
+        //driveBase.moveForward(driveBase.SLOW_POWER_FRACTION, 1000);
+        //telemetry.addData("Status", "Moved Forward");
         sleep(1000);
         driveBase.stop();
         Yeeter.startYeeters();
         sleep(3000);
-        Yeeter.feed();
+        Feeder.forwards();
         sleep(4000);
-        Yeeter.stopFeed();
+        Yeeter.stop();
+        Feeder.stop();
+        /*
         driveBase.moveLeft(driveBase.HALF_POWER_FRACTION, 280);
         telemetry.addData("Status", "Moved Forward");
         sleep(280);
@@ -54,5 +58,6 @@ public class CaeserAutoShooter extends LinearOpMode {
         telemetry.addData("Status", "Moved Forward");
         sleep(2400);
         driveBase.stop();
+         */
     }
 }

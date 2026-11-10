@@ -25,7 +25,7 @@ public class Yeeters {
     private static final double yeeterNearVelocity = 865;
     private static final double yeeterFarVelocity = 1000;
 
-    private boolean yeeterActive = false;
+    private boolean yeeterActive = true;
     private double yeeterTargetVelocity = 1280;
 
     public Yeeters(HardwareMap hardwareMap) {

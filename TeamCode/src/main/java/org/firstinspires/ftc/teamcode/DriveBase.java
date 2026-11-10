@@ -11,7 +11,7 @@ import org.opencv.core.Mat;
 
 public class DriveBase {
     public static final double FAST_POWER_FRACTION = 1.0;
-        public static final double SLOW_POWER_FRACTION = 0.2;
+        public static final double SLOW_POWER_FRACTION = 0.5;
         public static final double HALF_POWER_FRACTION = 0.5;
     public static final double[] TARGET_REACHED = {0, 0, 0, 0, 0};
     public boolean Arrived = false;
