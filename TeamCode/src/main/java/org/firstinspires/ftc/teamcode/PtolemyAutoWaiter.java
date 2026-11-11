@@ -31,21 +31,21 @@ public class PtolemyAutoWaiter extends LinearOpMode {
         waitForStart();
         telemetry.addData("Status", "Starting");
 
-        driveBase.moveForward(driveBase.NO_POWER_FRACTION,10000);
-        telemetry.addData("Status", "Moved Forward");
-        sleep(10000);
-        driveBase.stop();
+        //driveBase.moveForward(driveBase.NO_POWER_FRACTION,10000);
+        //telemetry.addData("Status", "Moved Forward");
+        //sleep(10000);
+        //driveBase.stop();
         yeetersJr.fire(yeetersJr.SEMI_FAST_POWER_FRACTION, 3000);
         telemetry.addData("Status", "Moved Forward");
         sleep(3000);
         driveBase.moveForward(driveBase.SLOW_POWER_FRACTION,2000);
-        telemetry.addData("Status", "Moved Forward");
+        /*telemetry.addData("Status", "Moved Forward");
         sleep(2000);
         driveBase.moveRight(driveBase.HALF_POWER_FRACTION,750);
         telemetry.addData("Status", "Moved Forward");
         sleep(750);
         driveBase.moveForward(driveBase.HALF_POWER_FRACTION,1500);
         telemetry.addData("Status", "Moved Forward");
-        sleep(1000);
+        sleep(1000);*/
     }
 }

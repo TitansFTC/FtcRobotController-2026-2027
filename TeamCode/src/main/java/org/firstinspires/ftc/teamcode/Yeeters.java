@@ -70,6 +70,10 @@ public class Yeeters {
     public void startYeeters() {
         yeeter.setVelocity(yeeterTargetVelocity);
     }
+    public void fire ( double power, int duration){
+        yeeter.setVelocity(yeeterTargetVelocity);
+        sleep(duration);
+    }
 
     public void stop() {
         yeeter.setPower(0);
