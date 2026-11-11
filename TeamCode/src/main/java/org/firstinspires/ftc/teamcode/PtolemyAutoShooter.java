@@ -33,7 +33,7 @@ public class PtolemyAutoShooter extends LinearOpMode {
         yeetersJr.fire(yeetersJr.SEMI_FAST_POWER_FRACTION, 3000);
         telemetry.addData("Status", "Moved Forward");
         sleep(3000);
-        driveBase.moveForward(driveBase.SLOW_POWER_FRACTION, 1000);
+        /*driveBase.moveForward(driveBase.SLOW_POWER_FRACTION, 1000);
         telemetry.addData("Status", "Moved Forward");
         sleep(1000);
         driveBase.stop();
@@ -48,6 +48,6 @@ public class PtolemyAutoShooter extends LinearOpMode {
         driveBase.moveForward(driveBase.HALF_POWER_FRACTION, 2400);
         telemetry.addData("Status", "Moved Forward");
         sleep(2400);
-        driveBase.stop();
+        driveBase.stop();*/
     }
 }
