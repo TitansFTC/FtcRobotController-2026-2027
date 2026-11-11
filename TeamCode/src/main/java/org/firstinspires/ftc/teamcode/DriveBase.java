@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Mat;
 
@@ -15,6 +17,10 @@ public class DriveBase {
         public static final double HALF_POWER_FRACTION = 0.5;
     public static final double[] TARGET_REACHED = {0, 0, 0, 0, 0};
     public boolean Arrived = false;
+    private static final double kP = 10;
+    private static final double kI = 3;
+    private static final double kD = 0.0;
+    private static final double kF = 12;
 
         private DcMotorEx leftFront = null;
         private DcMotorEx leftBack = null;
@@ -31,6 +37,11 @@ public class DriveBase {
     double posLeftFront;
     double posRightBack;
     double posLeftBack;
+    double leftFrontVelocity=0;
+    double rightFrontVelocity=0;
+    double leftBackVelocity=0;
+    double rightBackVelocity=0;
+
     public static void sleep(int i) {
     }
         public DriveBase(HardwareMap hardwareMap) {
@@ -42,6 +53,15 @@ public class DriveBase {
             leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            PIDFCoefficients pidfCoefficients = new PIDFCoefficients(kP, kI, 0, kF);
+            rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            rightFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+            leftFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+            rightBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
+            leftBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
         }
 
    public void loop(Gamepad gamepad, Telemetry telemetry) {
@@ -53,19 +73,17 @@ public class DriveBase {
        if (gamepad.right_bumper) {
            powerFraction = SLOW_POWER_FRACTION;
        }
+       rightFrontVelocity=rightFrontPower*100;
+       leftFrontVelocity=leftFrontPower*100;
+       rightBackVelocity=rightBackPower*100;
+       leftBackVelocity=leftBackPower*100;
        if (gamepad.y){
-           leftFrontPower*=500;
-           leftBackPower+=500;
-           rightFrontPower*=500;
-           rightBackPower*=500;
-           leftFront.setVelocity(leftFrontPower);
-           leftBack.setVelocity(leftBackPower);
-           rightFront.setVelocity(rightFrontPower);
-           rightBack.setVelocity(rightBackPower);
+           leftFront.setVelocity(leftFrontVelocity);
+           leftBack.setVelocity(leftBackVelocity);
+           rightFront.setVelocity(rightFrontVelocity);
+           rightBack.setVelocity(rightBackVelocity);
 
        }else {
-
-
            leftFront.setPower(leftFrontPower * powerFraction);
            leftBack.setPower(leftBackPower * powerFraction);
            rightFront.setPower(rightFrontPower * powerFraction);
@@ -87,6 +105,16 @@ public class DriveBase {
        telemetry.addData("LFpos", posLeftFront);
        telemetry.addData("RBpos", posRightBack);
        telemetry.addData("LBpos", posLeftBack);
+       telemetry.addData("RF_Vel", rightFront.getVelocity());
+       telemetry.addData("LF_Vel", leftFront.getVelocity());
+       telemetry.addData("RB_Vel", rightBack.getVelocity());
+       telemetry.addData("LB_Vel", leftBack.getVelocity());
+       telemetry.addData("RF_Tar", rightFrontVelocity);
+       telemetry.addData("RF_Tar", leftFrontVelocity);
+       telemetry.addData("RF_Tar", rightBackVelocity);
+       telemetry.addData("RF_Tar", leftBackVelocity);
+
+
 
 
 
