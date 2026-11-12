@@ -26,9 +26,8 @@ public class PtolemyTeleop extends OpMode {
     @Override
     public void loop()   {
         driveBase.loop(gamepad1, telemetry);
-        yeetersJr.loop(gamepad1, telemetry);
-        feedersJr.loop(gamepad1, telemetry);
-
+        yeetersJr.loop(gamepad2, telemetry);
+        feedersJr.loop(gamepad2, telemetry);
         dashboardTelemetry.update();
         telemetry.update();
     }
