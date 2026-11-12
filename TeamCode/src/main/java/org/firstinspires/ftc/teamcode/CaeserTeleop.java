@@ -29,7 +29,7 @@ public void init() {
     odometry = new Odometry(hardwareMap);
     yeeters = new Yeeters(hardwareMap);
     feeders = new Feeders(hardwareMap);
-    webcam = new Webcam(hardwareMap, dashboardTelemetry);
+    //webcam = new Webcam(hardwareMap, dashboardTelemetry);
 
     dashboard = FtcDashboard.getInstance();
     dashboardTelemetry = dashboard.getTelemetry();
@@ -38,7 +38,7 @@ public void init() {
 }
 @Override
     public void loop()   {
-    webcam.loop(dashboardTelemetry);
+    //webcam.loop(dashboardTelemetry);
     driveBase.loop(gamepad1, dashboardTelemetry);
     intake.loop(gamepad2, dashboardTelemetry);
     odometry.loop(dashboardTelemetry);

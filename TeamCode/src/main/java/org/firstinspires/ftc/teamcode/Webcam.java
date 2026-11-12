@@ -48,6 +48,7 @@ public class Webcam {
     }
 
     public void displayDetectionTelemetry(AprilTagDetection detectedId){
+        /*
         if (detectedId==null){return;}
         if (detectedId.metadata != null) {
             telemetry.addLine(String.format("\n==== (ID %d) %s", detectedId.id, detectedId.metadata.name));
@@ -58,14 +59,16 @@ public class Webcam {
             telemetry.addLine(String.format("\n==== (ID %d) Unknown", detectedId.id));
             telemetry.addLine(String.format("Center %6.0f %6.0f   (pixels)", detectedId.center.x, detectedId.center.y));
         }
+        */
     }
 
-    public AprilTagDetection getTagBySpecificId(int id){
+    public AprilTagDetection getTagBySpecificId(int id){/*
         for(AprilTagDetection detection: detectedTags){
             if(detection.id==id){
                 return detection;
             }
         }
+        */
         return null;
     }
 
@@ -76,7 +79,7 @@ public class Webcam {
         targetDistance = 0;
         targetBearing = 180;
 
-        for(AprilTagDetection detection: detectedTags){
+        for(AprilTagDetection detection: detectedTags){ /*
             try {
                 //red goal: 24, blue goal: 20
                 if (detection.id == 24 || detection.id == 20) {
@@ -87,7 +90,7 @@ public class Webcam {
                 telemetry.addData(Integer.toString(detection.id), String.format("XYZB %6.1f %6.1f %6.1f %6.1f", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z, detection.ftcPose.bearing));
             } catch (Exception e) {
                 //do nothing
-            }
+            }*/
         }
 
         // Control RGB

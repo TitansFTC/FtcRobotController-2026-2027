@@ -28,7 +28,7 @@ public class CaeserAutoWaiter extends LinearOpMode {
         //telemetry.addData("Status", "Moved Forward");
         //sleep(10000);
         //driveBase.stop();
-        Yeeters.fire(Yeeters.HALF_POWER_FRACTION, 3000);
+        //Yeeters.fire(Yeeters.HALF_POWER_FRACTION, 3000);
         telemetry.addData("Status", "Moved Forward");
         sleep(3000);
         driveBase.moveForward(driveBase.SLOW_POWER_FRACTION,2000);
