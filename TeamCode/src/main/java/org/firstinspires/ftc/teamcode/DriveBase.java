@@ -17,7 +17,7 @@ public class DriveBase {
         public static final double HALF_POWER_FRACTION = 0.5;
     public static final double[] TARGET_REACHED = {0, 0, 0, 0, 0};
     public boolean Arrived = false;
-    private static final double kP = 10;
+    private static final double kP = 100;
     private static final double kI = 3;
     private static final double kD = 0.0;
     private static final double kF = 12;
@@ -33,6 +33,7 @@ public class DriveBase {
     double A;
     double C;
     double rel_T;
+    double velocityScaleFactor = 1500;
     double posRightFront;
     double posLeftFront;
     double posRightBack;
@@ -65,19 +66,19 @@ public class DriveBase {
         }
 
    public void loop(Gamepad gamepad, Telemetry telemetry) {
-       double leftFrontPower = (gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x*.75;
-       double leftBackPower = (gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x*.75;
-       double rightFrontPower = (-gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x*.75;
-       double rightBackPower = (-gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x*.75;
+       double leftFrontPower = (gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x*.7;
+       double leftBackPower = (gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x*.7;
+       double rightFrontPower = (-gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x*.7;
+       double rightBackPower = (-gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x*.7;
        double powerFraction = FAST_POWER_FRACTION;
        if (gamepad.right_bumper) {
            powerFraction = SLOW_POWER_FRACTION;
        }
-       rightFrontVelocity=rightFrontPower*100;
-       leftFrontVelocity=leftFrontPower*100;
-       rightBackVelocity=rightBackPower*100;
-       leftBackVelocity=leftBackPower*100;
-       if (gamepad.y){
+       rightFrontVelocity=rightFrontPower*velocityScaleFactor;
+       leftFrontVelocity=leftFrontPower*velocityScaleFactor;
+       rightBackVelocity=rightBackPower*velocityScaleFactor;
+       leftBackVelocity=leftBackPower*velocityScaleFactor;
+       if (!gamepad.y){
            leftFront.setVelocity(leftFrontVelocity);
            leftBack.setVelocity(leftBackVelocity);
            rightFront.setVelocity(rightFrontVelocity);
@@ -110,9 +111,9 @@ public class DriveBase {
        telemetry.addData("RB_Vel", rightBack.getVelocity());
        telemetry.addData("LB_Vel", leftBack.getVelocity());
        telemetry.addData("RF_Tar", rightFrontVelocity);
-       telemetry.addData("RF_Tar", leftFrontVelocity);
-       telemetry.addData("RF_Tar", rightBackVelocity);
-       telemetry.addData("RF_Tar", leftBackVelocity);
+       telemetry.addData("LF_Tar", leftFrontVelocity);
+       telemetry.addData("RB_Tar", rightBackVelocity);
+       telemetry.addData("LB_Tar", leftBackVelocity);
 
 
 
