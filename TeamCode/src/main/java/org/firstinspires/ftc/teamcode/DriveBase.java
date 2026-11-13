@@ -17,10 +17,10 @@ public class DriveBase {
         public static final double HALF_POWER_FRACTION = 0.5;
     public static final double[] TARGET_REACHED = {0, 0, 0, 0, 0};
     public boolean Arrived = false;
-    private static final double kP = 100;
-    private static final double kI = 3;
+    private static final double kP = 25;
+    private static final double kI = 2;
     private static final double kD = 0.0;
-    private static final double kF = 12;
+    private static final double kF = 7;
 
         private DcMotorEx leftFront = null;
         private DcMotorEx leftBack = null;
