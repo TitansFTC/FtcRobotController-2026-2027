@@ -11,7 +11,6 @@ public class Feeders {
     public static final double FORWARD_POWER = -1.0;
     public static final double BACKWARD_POWER = 1.0;
     private CRServoImpl feeder = null;
-
     public Feeders(HardwareMap hardwareMap) {
         feeder = hardwareMap.get(CRServoImpl.class, "feeder");
     }
@@ -22,15 +21,12 @@ public class Feeders {
             feeder.setPower(BACKWARD_POWER);
         }
     }
-
     public void backwards() {
         feeder.setPower(BACKWARD_POWER);
     }
-
     public void forwards() {
         feeder.setPower(FORWARD_POWER);
     }
-
     public void stop()  {
        feeder.setPower(0);
     }
