@@ -7,10 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Mat;
-
 public class DriveBase {
     public static final double FAST_POWER_FRACTION = 1.0;
         public static final double SLOW_POWER_FRACTION = 0.5;
@@ -21,7 +19,6 @@ public class DriveBase {
     private static final double kI = 3;
     private static final double kD = 0.0;
     private static final double kF = 12;
-
         private DcMotorEx leftFront = null;
         private DcMotorEx leftBack = null;
         private DcMotorEx rightFront = null;
