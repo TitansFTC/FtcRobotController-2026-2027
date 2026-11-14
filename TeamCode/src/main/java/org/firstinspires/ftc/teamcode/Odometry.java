@@ -34,13 +34,11 @@ public class Odometry {
     }
 
     public void loop(Telemetry telemetry) {
-
         counter--;
-        if (counter>0){
+        if (counter > 0) {
             return;
         }
-        counter=10;
-
+        counter = 5;
 
         odo.update();
         pos = odo.getPosition();

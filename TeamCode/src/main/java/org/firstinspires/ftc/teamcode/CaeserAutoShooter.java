@@ -61,11 +61,11 @@ public class CaeserAutoShooter extends LinearOpMode {
         intake.holdPosition();
 
         // Warm up Yeeters
-        sleep(3000);
+        sleep(2000);
 
         // Shoot
         feeder.forwards();
-        sleep(4000);
+        sleep(3500);
         feeder.backwards();
 
         // Move diagonally
