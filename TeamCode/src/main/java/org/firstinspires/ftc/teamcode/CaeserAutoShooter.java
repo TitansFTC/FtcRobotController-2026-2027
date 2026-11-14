@@ -26,6 +26,7 @@ public class CaeserAutoShooter extends LinearOpMode {
     private FtcDashboard dashboard = null;
     private Telemetry dashboardTelemetry = null;
 
+    private Intake intake = null;
     public Yeeters yeeter = null;
     public Feeders feeder = null;
     private static final double kP = 100;
@@ -37,6 +38,7 @@ public class CaeserAutoShooter extends LinearOpMode {
         yeeter = new Yeeters(hardwareMap);
         feeder = new Feeders(hardwareMap);
         odometry = new Odometry(hardwareMap);
+        intake = new Intake(hardwareMap);
 
         dashboard = FtcDashboard.getInstance();
         dashboardTelemetry = dashboard.getTelemetry();
@@ -52,9 +54,11 @@ public class CaeserAutoShooter extends LinearOpMode {
 
         // Warm up Yeeters
         yeeter.startYeeters();
+        intake.holdPosition();
 
         // Move forward a small amount
         driveBase.odoMoveLoop(0, -6, 0, dashboardTelemetry, odometry);
+        intake.holdPosition();
 
         // Warm up Yeeters
         sleep(3000);
@@ -66,9 +70,11 @@ public class CaeserAutoShooter extends LinearOpMode {
 
         // Move diagonally
         driveBase.odoMoveLoop(-35, -35, 0, dashboardTelemetry, odometry);
+        intake.holdPosition();
 
         // Move forward to parking
         driveBase.odoMoveLoop(-35, -90, 0, dashboardTelemetry, odometry);
+        intake.holdPosition();
 
         driveBase.stop();
     }

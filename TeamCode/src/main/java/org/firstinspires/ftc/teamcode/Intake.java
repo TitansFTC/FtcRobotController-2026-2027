@@ -58,6 +58,11 @@ public class Intake {
         telemetry.addData("ShovelPos", shovel.getCurrentPosition());
     }
 
+    public void holdPosition() {
+        shovel.setTargetPosition(0);
+        shovel.setVelocity(750);
+    }
+
     public void stop() {
         intake.setPower(0);
     }
