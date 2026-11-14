@@ -73,7 +73,7 @@ public class CaeserAutoShooter extends LinearOpMode {
         intake.holdPosition();
 
         // Move forward to parking
-        driveBase.odoMoveLoop(-35, -90, 0, dashboardTelemetry, odometry);
+        driveBase.odoMoveLoop(-36, -90, 0, dashboardTelemetry, odometry);
         intake.holdPosition();
 
         driveBase.stop();
