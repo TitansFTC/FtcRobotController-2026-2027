@@ -15,15 +15,11 @@ public class DriveBase {
         public static final double HALF_POWER_FRACTION = 0.5;
     public static final double[] TARGET_REACHED = {0, 0, 0, 0, 0};
     public boolean Arrived = false;
-    private static final double kP = 25;
-    private static final double kI = 2;
+    private static final double kP = 8;
+    private static final double kI = 0.5;
     private static final double kD = 0.0;
-<<<<<<< HEAD
-    private static final double kF = 12;
-=======
-    private static final double kF = 7;
+    private static final double kF = 1.5;
 
->>>>>>> 6856acafb236523611b1966666daff076587011d
         private DcMotorEx leftFront = null;
         private DcMotorEx leftBack = null;
         private DcMotorEx rightFront = null;
@@ -35,7 +31,7 @@ public class DriveBase {
     double A;
     double C;
     double rel_T;
-    double velocityScaleFactor = 1500;
+    double velocityScaleFactor = 2500;
     double posRightFront;
     double posLeftFront;
     double posRightBack;

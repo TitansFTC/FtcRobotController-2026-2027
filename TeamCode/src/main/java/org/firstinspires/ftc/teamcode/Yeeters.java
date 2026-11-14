@@ -20,7 +20,7 @@ public class Yeeters {
     private static final double yeeterNearVelocity = 865;
     private static final double yeeterFarVelocity = 1000;
     private boolean yeeterActive = true;
-    private double yeeterTargetVelocity = 1210;
+    private double yeeterTargetVelocity = 1205;
     public Yeeters(HardwareMap hardwareMap) {
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(kP, kI, 0, kF);
         yeeter = hardwareMap.get(DcMotorEx.class, "Yeeter");

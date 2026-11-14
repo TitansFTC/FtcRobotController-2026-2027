@@ -38,12 +38,14 @@ public class Intake {
         if (gamepad.right_bumper) {
             intakepower = INWARD_POWER;
         }
+
         if (gamepad.yWasPressed()){
             shovelPos=!shovelPos;
         }
+
         if (shovelPos){
             shovel.setTargetPosition(0);
-            shovel.setVelocity(500);
+            shovel.setVelocity(750);
         }else{
             shovel.setTargetPosition(-225);
             shovel.setVelocity(-200);

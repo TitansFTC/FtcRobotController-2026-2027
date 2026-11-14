@@ -9,7 +9,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import com.qualcomm.robotcore.hardware.CRServoImpl;
 public class Feeders {
     public static final double FORWARD_POWER = -1.0;
-    public static final double BACKWARD_POWER = 1.0;
+    public static final double BACKWARD_POWER = 0.5;
     private CRServoImpl feeder = null;
     public Feeders(HardwareMap hardwareMap) {
         feeder = hardwareMap.get(CRServoImpl.class, "feeder");
