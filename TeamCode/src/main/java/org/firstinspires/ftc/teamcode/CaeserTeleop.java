@@ -39,12 +39,20 @@ public void init() {
 @Override
     public void loop()   {
     //webcam.loop(dashboardTelemetry);
+    odometry.loop(dashboardTelemetry);
     driveBase.loop(gamepad1, dashboardTelemetry);
     intake.loop(gamepad2, dashboardTelemetry);
-    odometry.loop(dashboardTelemetry);
     yeeters.loop(gamepad2, dashboardTelemetry);
     feeders.loop(gamepad2, dashboardTelemetry);
 
+    /*
+    if (gamepad1.a){
+        driveBase.odoMove(0,25, 0, odometry.curPosX(), odometry.curPosY(), odometry.curPosT(), dashboardTelemetry);
+    }
+    if (gamepad1.b){
+        driveBase.odoMove(25,0, 0, odometry.curPosX(), odometry.curPosY(), odometry.curPosT(), dashboardTelemetry);
+    }
+    */
 
     dashboardTelemetry.update();
 }

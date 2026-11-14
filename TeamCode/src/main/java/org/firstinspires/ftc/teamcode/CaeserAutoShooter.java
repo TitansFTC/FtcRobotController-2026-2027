@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
 import java.time.Duration;
 
-@Autonomous(name="CeaserAutoShooter", group = "Titan's AutoOp")
+@Autonomous(name="CaeserAutoShooter", group = "Titan's AutoOp")
 public class CaeserAutoShooter extends LinearOpMode {
     public static final double FAST_POWER_FRACTION = 1.0;
     public static final double HALF_POWER_FRACTION = 0.5;
@@ -17,34 +17,44 @@ public class CaeserAutoShooter extends LinearOpMode {
 
     public Duration duration = null;
     public DriveBase driveBase = null;
-    public Yeeters Yeeter = null;
-    public Feeders Feeder = null;
+
+    private Odometry odometry = null;
+
+    public Yeeters yeeter = null;
+    public Feeders feeder = null;
     private static final double kP = 100;
     private static final double kI = 10;
     private static double kF = 13;
 
     private void initHardware() {
         driveBase = new DriveBase(hardwareMap);
-        Yeeter = new Yeeters(hardwareMap);
-        Feeder = new Feeders(hardwareMap);
+        yeeter = new Yeeters(hardwareMap);
+        feeder = new Feeders(hardwareMap);
+        odometry = new Odometry(hardwareMap);
+
         telemetry.addData("Status", "Initialized");
     }
     @Override
     public void runOpMode() throws InterruptedException {
         initHardware();
         waitForStart();
+
         telemetry.addData("Status", "Starting");
-        Yeeter.stop();
-        //driveBase.moveForward(driveBase.SLOW_POWER_FRACTION, 1000);
-        //telemetry.addData("Status", "Moved Forward");
-        sleep(1000);
-        driveBase.stop();
-        Yeeter.startYeeters();
+
+        // Move forward a small amount
+        odometry.loop(telemetry);
+
+        driveBase.odoMoveLoop(0, -5, 0, telemetry, odometry);
+
+        // Warm up Yeeters
+        yeeter.startYeeters();
         sleep(3000);
-        Feeder.forwards();
+
+        // Shoot
+        feeder.forwards();
         sleep(4000);
-        Yeeter.stop();
-        Feeder.stop();
+        feeder.backwards();
+
         /*
         driveBase.moveLeft(driveBase.HALF_POWER_FRACTION, 280);
         telemetry.addData("Status", "Moved Forward");

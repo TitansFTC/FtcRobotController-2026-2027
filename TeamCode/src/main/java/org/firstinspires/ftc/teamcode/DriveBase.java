@@ -32,31 +32,31 @@ public class DriveBase {
     double C;
     double rel_T;
     double velocityScaleFactor = 2500;
-    double posRightFront;
-    double posLeftFront;
-    double posRightBack;
-    double posLeftBack;
-    double leftFrontVelocity=0;
-    double rightFrontVelocity=0;
-    double leftBackVelocity=0;
-    double rightBackVelocity=0;
 
     public static void sleep(int i) {
     }
         public DriveBase(HardwareMap hardwareMap) {
+            // Get devices from hardware map
             leftFront = hardwareMap.get(DcMotorEx.class, "leftFront");
             leftBack = hardwareMap.get(DcMotorEx.class, "leftBack");
             rightFront = hardwareMap.get(DcMotorEx.class, "rightFront");
             rightBack = hardwareMap.get(DcMotorEx.class, "rightBack");
+
+            // Ensure we brake when there is no power
             leftFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             leftBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             rightFront.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
             rightBack.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
-            PIDFCoefficients pidfCoefficients = new PIDFCoefficients(kP, kI, 0, kF);
+
+            // Enable encoders for velocity
             rightFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             leftFront.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             rightBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
             leftBack.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+            // Set PID Coefficients for motors
+            PIDFCoefficients pidfCoefficients = new PIDFCoefficients(kP, kI, 0, kF);
+
             rightFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
             leftFront.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
             rightBack.setPIDFCoefficients(DcMotor.RunMode.RUN_USING_ENCODER, pidfCoefficients);
@@ -64,25 +64,27 @@ public class DriveBase {
         }
 
    public void loop(Gamepad gamepad, Telemetry telemetry) {
-       double leftFrontPower = (gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x*.7;
-       double leftBackPower = (gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x*.7;
-       double rightFrontPower = (-gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x*.7;
-       double rightBackPower = (-gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x*.7;
+       double leftFrontPower = (gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
+       double leftBackPower = (gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
+       double rightFrontPower = (-gamepad.left_stick_y - gamepad.right_stick_x) + gamepad.left_stick_x;
+       double rightBackPower = (-gamepad.left_stick_y - gamepad.right_stick_x) - gamepad.left_stick_x;
        double powerFraction = FAST_POWER_FRACTION;
+
        if (gamepad.right_bumper) {
            powerFraction = SLOW_POWER_FRACTION;
        }
-       rightFrontVelocity=rightFrontPower*velocityScaleFactor;
-       leftFrontVelocity=leftFrontPower*velocityScaleFactor;
-       rightBackVelocity=rightBackPower*velocityScaleFactor;
-       leftBackVelocity=leftBackPower*velocityScaleFactor;
-       if (!gamepad.y){
-           leftFront.setVelocity(leftFrontVelocity);
-           leftBack.setVelocity(leftBackVelocity);
-           rightFront.setVelocity(rightFrontVelocity);
-           rightBack.setVelocity(rightBackVelocity);
 
-       }else {
+       double rightFrontVelocity = rightFrontPower*velocityScaleFactor;
+       double leftFrontVelocity = leftFrontPower*velocityScaleFactor;
+       double rightBackVelocity = rightBackPower*velocityScaleFactor;
+       double leftBackVelocity = leftBackPower*velocityScaleFactor;
+
+       if (!gamepad.y){
+           leftFront.setVelocity(leftFrontVelocity * powerFraction);
+           leftBack.setVelocity(leftBackVelocity * powerFraction);
+           rightFront.setVelocity(rightFrontVelocity * powerFraction);
+           rightBack.setVelocity(rightBackVelocity * powerFraction);
+       } else {
            leftFront.setPower(leftFrontPower * powerFraction);
            leftBack.setPower(leftBackPower * powerFraction);
            rightFront.setPower(rightFrontPower * powerFraction);
@@ -90,14 +92,10 @@ public class DriveBase {
        }
 
 
-       posRightFront=-rightFront.getCurrentPosition();
-       posLeftFront=leftFront.getCurrentPosition();
-       posRightBack=-rightBack.getCurrentPosition();
-       posLeftBack=leftBack.getCurrentPosition();
-
-
-
-
+       double posRightFront = -rightFront.getCurrentPosition();
+       double posLeftFront = leftFront.getCurrentPosition();
+       double posRightBack = -rightBack.getCurrentPosition();
+       double posLeftBack = leftBack.getCurrentPosition();
 
        telemetry.addData("rightFront", rightFrontPower);
        telemetry.addData("RFpos", posRightFront);
@@ -112,12 +110,7 @@ public class DriveBase {
        telemetry.addData("LF_Tar", leftFrontVelocity);
        telemetry.addData("RB_Tar", rightBackVelocity);
        telemetry.addData("LB_Tar", leftBackVelocity);
-
-
-
-
-
-       }
+    }
 
 
     public boolean odoMove(double tar_pos_X, double tar_pos_Y, double tar_T, double cur_Pos_X, double cur_Pos_Y, double cur_Heading, Telemetry telemetry){
@@ -194,7 +187,7 @@ public class DriveBase {
 
 
         // Skip if we have reached target
-        if ((Math.abs(rel_tar_x) <= 3) && (Math.abs(rel_tar_y) <= 3) && (Math.abs(rel_Heading) <= 3)) {
+        if ((Math.abs(rel_tar_x) <= 2) && (Math.abs(rel_tar_y) <= 2) && (Math.abs(rel_Heading) <= 2)) {
             leftFront.setPower(0);
             leftBack.setPower(0);
             rightBack.setPower(0);
@@ -231,21 +224,21 @@ public class DriveBase {
         double powerFraction = FAST_POWER_FRACTION;
         double distanceAway = Math.sqrt(rel_tar_x*rel_tar_x + rel_tar_y*rel_tar_y);
         if (distanceAway < 10) {
-            powerFraction = Math.max(SLOW_POWER_FRACTION, distanceAway / 10);
+            powerFraction = Math.max(SLOW_POWER_FRACTION, distanceAway / 20);
         }
 
 
-/*
+        /*
         double lfp = ((rel_pos_y + rel_pos_x) + rel_angle);
         double lbp = ((rel_pos_y +  -rel_pos_x) + rel_angle);
         double rfp = ((-rel_pos_y + rel_pos_x) + rel_angle);
         double rbp = ((-rel_pos_y + -rel_pos_x) + rel_angle);
 
- */
-        double lfp = ((rel_pos_y +  -rel_pos_x) + rel_angle);
-        double lbp = ((rel_pos_y +  -rel_pos_x) + -rel_angle);
-        double rfp = ((-rel_pos_y + -rel_pos_x) + rel_angle);
-        double rbp = ((-rel_pos_y + -rel_pos_x) + -rel_angle);
+        */
+        double lfp = ((-rel_pos_y +  -rel_pos_x) + rel_angle);
+        double lbp = ((-rel_pos_y +  -rel_pos_x) + -rel_angle);
+        double rfp = ((rel_pos_y + -rel_pos_x) + rel_angle);
+        double rbp = ((rel_pos_y + -rel_pos_x) + -rel_angle);
 
         if ((Math.abs(lfp) >= 1) || (Math.abs(rfp) >= 1) || (Math.abs(lbp) >= 1) || (Math.abs(rbp) >= 1)) {
             double highestPower = Math.max(Math.max(Math.abs(lfp), Math.abs(rfp)), Math.max(Math.abs(rbp), Math.abs(lbp)));
@@ -256,10 +249,10 @@ public class DriveBase {
         }
 
 
-        leftFront.setPower(lfp);
-        rightFront.setPower(rfp);
-        leftBack.setPower(lbp);
-        rightBack.setPower(rbp);
+        leftFront.setPower(lfp*.5);
+        rightFront.setPower(rfp*.5);
+        leftBack.setPower(lbp*.5);
+        rightBack.setPower(rbp*.5);
 
 
         telemetry.addData("rel_X", rel_pos_x);
@@ -313,6 +306,13 @@ public class DriveBase {
 
 
     }
+
+    public void odoMoveLoop(double tar_pos_X, double tar_pos_Y, double tar_T, Telemetry telemetry, Odometry odometry) {
+        while (!odoMove(tar_pos_X, tar_pos_Y, tar_T, odometry.curPosX(), odometry.curPosY(), odometry.curPosT(), telemetry)) {
+            odometry.loop(telemetry);
+        }
+    }
+
     public void moveForward(double power, int duration) {
         leftFront.setPower(-power);
         leftBack.setPower(-power);

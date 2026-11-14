@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import java.time.Duration;
 
-@Autonomous(name="CeaserAutoWaiter", group = "Titan's AutoOp")
+@Autonomous(name="CaeserAutoWaiter", group = "Titan's AutoOp")
 public class CaeserAutoWaiter extends LinearOpMode {
     public static final double FAST_POWER_FRACTION = 1.0;
     public static final double HALF_POWER_FRACTION = 0.5;
