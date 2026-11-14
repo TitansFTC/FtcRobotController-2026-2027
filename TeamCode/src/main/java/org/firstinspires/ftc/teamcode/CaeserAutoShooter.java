@@ -57,7 +57,7 @@ public class CaeserAutoShooter extends LinearOpMode {
         intake.holdPosition();
 
         // Move forward a small amount
-        driveBase.odoMoveLoop(0, -6, 0, dashboardTelemetry, odometry);
+        driveBase.odoMoveLoop(0, -5, 0, dashboardTelemetry, odometry);
         intake.holdPosition();
 
         // Warm up Yeeters
@@ -69,11 +69,11 @@ public class CaeserAutoShooter extends LinearOpMode {
         feeder.backwards();
 
         // Move diagonally
-        driveBase.odoMoveLoop(-35, -35, 0, dashboardTelemetry, odometry);
+        driveBase.odoMoveLoop(-35, -60, 0, dashboardTelemetry, odometry);
         intake.holdPosition();
 
         // Move forward to parking
-        driveBase.odoMoveLoop(-36, -90, 0, dashboardTelemetry, odometry);
+        driveBase.odoMoveLoop(-35, -90, 0, dashboardTelemetry, odometry);
         intake.holdPosition();
 
         driveBase.stop();
