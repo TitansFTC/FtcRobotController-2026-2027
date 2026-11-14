@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Mat;
 public class DriveBase {
     public static final double FAST_POWER_FRACTION = 1.0;
-        public static final double SLOW_POWER_FRACTION = 0.5;
+        public static final double SLOW_POWER_FRACTION = 0.4;
         public static final double HALF_POWER_FRACTION = 0.5;
     public static final double[] TARGET_REACHED = {0, 0, 0, 0, 0};
     public boolean Arrived = false;
@@ -221,11 +221,9 @@ public class DriveBase {
             rel_angle = ((tar_T - cur_Heading) / 30) * 0.75;
         }
 
-        double powerFraction = FAST_POWER_FRACTION;
-        double distanceAway = Math.sqrt(rel_tar_x*rel_tar_x + rel_tar_y*rel_tar_y);
-        if (distanceAway < 10) {
-            powerFraction = Math.max(SLOW_POWER_FRACTION, distanceAway / 20);
-        }
+
+        double distanceAway  = Math.sqrt(rel_tar_x*rel_tar_x + rel_tar_y*rel_tar_y);
+        double powerFraction = powerFraction = Math.max(0.1, Math.min(SLOW_POWER_FRACTION, distanceAway / 60));
 
 
         /*
@@ -233,31 +231,32 @@ public class DriveBase {
         double lbp = ((rel_pos_y +  -rel_pos_x) + rel_angle);
         double rfp = ((-rel_pos_y + rel_pos_x) + rel_angle);
         double rbp = ((-rel_pos_y + -rel_pos_x) + rel_angle);
-
         */
-        double lfp = ((-rel_pos_y +  -rel_pos_x) + rel_angle);
-        double lbp = ((-rel_pos_y +  -rel_pos_x) + -rel_angle);
-        double rfp = ((rel_pos_y + -rel_pos_x) + rel_angle);
-        double rbp = ((rel_pos_y + -rel_pos_x) + -rel_angle);
+
+        double lfp = ((-rel_pos_y + -rel_pos_x) + rel_angle);
+        double lbp = ((-rel_pos_y +  rel_pos_x) + rel_angle);
+        double rfp = (( rel_pos_y + -rel_pos_x) + rel_angle);
+        double rbp = (( rel_pos_y +  rel_pos_x) + rel_angle);
 
         if ((Math.abs(lfp) >= 1) || (Math.abs(rfp) >= 1) || (Math.abs(lbp) >= 1) || (Math.abs(rbp) >= 1)) {
             double highestPower = Math.max(Math.max(Math.abs(lfp), Math.abs(rfp)), Math.max(Math.abs(rbp), Math.abs(lbp)));
-            lfp = lfp*powerFraction / highestPower;
-            lbp = lbp*powerFraction / highestPower;
-            rfp = rfp*powerFraction / highestPower;
-            rbp = rbp*powerFraction / highestPower;
+            lfp = lfp / highestPower;
+            lbp = lbp / highestPower;
+            rfp = rfp / highestPower;
+            rbp = rbp / highestPower;
         }
 
-
-        leftFront.setPower(lfp*.5);
-        rightFront.setPower(rfp*.5);
-        leftBack.setPower(lbp*.5);
-        rightBack.setPower(rbp*.5);
+        leftFront.setPower(lfp * powerFraction);
+        rightFront.setPower(rfp * powerFraction);
+        leftBack.setPower(lbp * powerFraction);
+        rightBack.setPower(rbp * powerFraction);
 
 
         telemetry.addData("rel_X", rel_pos_x);
         telemetry.addData("rel_Y", rel_pos_y);
         telemetry.addData("rel_T", rel_angle);
+        telemetry.addData("curX", cur_Pos_X);
+        telemetry.addData("curY", cur_Pos_Y);
         telemetry.addData("curT", cur_Heading);
         telemetry.addData("Beta", beta);
         telemetry.addData("lfp", lfp);
@@ -308,9 +307,10 @@ public class DriveBase {
     }
 
     public void odoMoveLoop(double tar_pos_X, double tar_pos_Y, double tar_T, Telemetry telemetry, Odometry odometry) {
-        while (!odoMove(tar_pos_X, tar_pos_Y, tar_T, odometry.curPosX(), odometry.curPosY(), odometry.curPosT(), telemetry)) {
+        do {
             odometry.loop(telemetry);
-        }
+            telemetry.update();
+        } while (!odoMove(tar_pos_X, tar_pos_Y, tar_T, odometry.curPosX(), odometry.curPosY(), odometry.curPosT(), telemetry));
     }
 
     public void moveForward(double power, int duration) {

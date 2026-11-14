@@ -1,9 +1,12 @@
 package org.firstinspires.ftc.teamcode;
+import com.acmerobotics.dashboard.FtcDashboard;
 import
         com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.time.Duration;
 
@@ -20,6 +23,9 @@ public class CaeserAutoShooter extends LinearOpMode {
 
     private Odometry odometry = null;
 
+    private FtcDashboard dashboard = null;
+    private Telemetry dashboardTelemetry = null;
+
     public Yeeters yeeter = null;
     public Feeders feeder = null;
     private static final double kP = 100;
@@ -32,6 +38,9 @@ public class CaeserAutoShooter extends LinearOpMode {
         feeder = new Feeders(hardwareMap);
         odometry = new Odometry(hardwareMap);
 
+        dashboard = FtcDashboard.getInstance();
+        dashboardTelemetry = dashboard.getTelemetry();
+
         telemetry.addData("Status", "Initialized");
     }
     @Override
@@ -41,13 +50,13 @@ public class CaeserAutoShooter extends LinearOpMode {
 
         telemetry.addData("Status", "Starting");
 
-        // Move forward a small amount
-        odometry.loop(telemetry);
-
-        driveBase.odoMoveLoop(0, -5, 0, telemetry, odometry);
-
         // Warm up Yeeters
         yeeter.startYeeters();
+
+        // Move forward a small amount
+        driveBase.odoMoveLoop(0, -6, 0, dashboardTelemetry, odometry);
+
+        // Warm up Yeeters
         sleep(3000);
 
         // Shoot
@@ -55,19 +64,12 @@ public class CaeserAutoShooter extends LinearOpMode {
         sleep(4000);
         feeder.backwards();
 
-        /*
-        driveBase.moveLeft(driveBase.HALF_POWER_FRACTION, 280);
-        telemetry.addData("Status", "Moved Forward");
-        sleep(280);
+        // Move diagonally
+        driveBase.odoMoveLoop(-35, -35, 0, dashboardTelemetry, odometry);
+
+        // Move forward to parking
+        driveBase.odoMoveLoop(-35, -90, 0, dashboardTelemetry, odometry);
+
         driveBase.stop();
-        driveBase.moveLeft(driveBase.NO_POWER_FRACTION, 300);
-        telemetry.addData("Status", "Moved Forward");
-        sleep(300);
-        driveBase.stop();
-        driveBase.moveForward(driveBase.HALF_POWER_FRACTION, 2400);
-        telemetry.addData("Status", "Moved Forward");
-        sleep(2400);
-        driveBase.stop();
-         */
     }
 }
