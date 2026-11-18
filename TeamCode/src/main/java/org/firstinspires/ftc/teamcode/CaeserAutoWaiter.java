@@ -1,6 +1,12 @@
 package org.firstinspires.ftc.teamcode;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.acmerobotics.dashboard.FtcDashboard;
+import
+        com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 import java.time.Duration;
 
@@ -13,32 +19,58 @@ public class CaeserAutoWaiter extends LinearOpMode {
 
 
     public Duration duration = null;
-    public DriveBaseJr driveBase = null;
+    public DriveBase driveBase = null;
+
+    private Odometry odometry = null;
+
+    private FtcDashboard dashboard = null;
+    private Telemetry dashboardTelemetry = null;
+
+    private Intake intake = null;
+    public Yeeters yeeter = null;
+    public Feeders feeder = null;
+    private static final double kP = 100;
+    private static final double kI = 10;
+    private static double kF = 13;
+
     private void initHardware() {
-        driveBase = new DriveBaseJr(hardwareMap);
+        driveBase = new DriveBase(hardwareMap);
+        yeeter = new Yeeters(hardwareMap);
+        feeder = new Feeders(hardwareMap);
+        odometry = new Odometry(hardwareMap);
+        intake = new Intake(hardwareMap);
+
+        dashboard = FtcDashboard.getInstance();
+        dashboardTelemetry = dashboard.getTelemetry();
+
         telemetry.addData("Status", "Initialized");
     }
     @Override
     public void runOpMode() throws InterruptedException {
         initHardware();
         waitForStart();
-        telemetry.addData("Status", "Starting");
 
-        //driveBase.moveForward(driveBase.NO_POWER_FRACTION,10000);
-        //telemetry.addData("Status", "Moved Forward");
-        //sleep(10000);
-        //driveBase.stop();
-        //Yeeters.fire(Yeeters.HALF_POWER_FRACTION, 3000);
-        telemetry.addData("Status", "Moved Forward");
-        sleep(3000);
-        driveBase.moveForward(driveBase.SLOW_POWER_FRACTION,2000);
-        /*telemetry.addData("Status", "Moved Forward");
-        sleep(2000);
-        driveBase.moveRight(driveBase.HALF_POWER_FRACTION,750);
-        telemetry.addData("Status", "Moved Forward");
-        sleep(750);
-        driveBase.moveForward(driveBase.HALF_POWER_FRACTION,1500);
-        telemetry.addData("Status", "Moved Forward");
-        sleep(1000);*/
+        telemetry.addData("Status", "Starting");
+        // Warm up Yeeters
+        yeeter.startYeeters();
+        intake.holdPosition();
+
+        // Move forward a small amount
+        driveBase.odoMoveLoop(0, -7.5, 0, dashboardTelemetry, odometry);
+        intake.holdPosition();
+
+        // Warm up Yeeters and wait
+        sleep(12000);
+
+        // Shoot
+        feeder.forwards();
+        sleep(3500);
+        feeder.backwards();
+
+        // Move forward to parking
+        driveBase.odoMoveLoop(42, -20, 0, dashboardTelemetry, odometry);
+        intake.holdPosition();
+
+        driveBase.stop();
     }
 }
