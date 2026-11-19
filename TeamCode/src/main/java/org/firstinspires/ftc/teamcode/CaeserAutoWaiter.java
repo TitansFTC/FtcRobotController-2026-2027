@@ -51,31 +51,47 @@ public class CaeserAutoWaiter extends LinearOpMode {
         waitForStart();
 
         telemetry.addData("Status", "Starting");
+<<<<<<< HEAD
         //wait for other to shoot
         sleep(10000);
 
+=======
+>>>>>>> 38fda20292f5f0fb7b1661d4bac3ceeb0c9e6cf2
         // Warm up Yeeters
         yeeter.startYeeters();
         intake.holdPosition();
 
         // Move forward a small amount
+<<<<<<< HEAD
         driveBase.odoMoveLoop(0, -5, 0, dashboardTelemetry, odometry);
         intake.holdPosition();
 
         // Warm up Yeeters
         sleep(2000);
+=======
+        driveBase.odoMoveLoop(0, -7.5, 0, dashboardTelemetry, odometry);
+        intake.holdPosition();
+
+        // Warm up Yeeters and wait
+        sleep(12000);
+>>>>>>> 38fda20292f5f0fb7b1661d4bac3ceeb0c9e6cf2
 
         // Shoot
         feeder.forwards();
         sleep(3500);
         feeder.backwards();
 
+<<<<<<< HEAD
         // Move diagonally
         driveBase.odoMoveLoop(-35, -60, 0, dashboardTelemetry, odometry);
         intake.holdPosition();
 
         // Move forward to parking
         driveBase.odoMoveLoop(-35, -90, 0, dashboardTelemetry, odometry);
+=======
+        // Move forward to parking
+        driveBase.odoMoveLoop(42, -20, 0, dashboardTelemetry, odometry);
+>>>>>>> 38fda20292f5f0fb7b1661d4bac3ceeb0c9e6cf2
         intake.holdPosition();
 
         driveBase.stop();
