@@ -9,8 +9,10 @@ import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.vision.VisionPortal;
+import org.firstinspires.ftc.vision.apriltag.AprilTagClusterDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagDetection;
 import org.firstinspires.ftc.vision.apriltag.AprilTagProcessor;
+import org.firstinspires.ftc.vision.apriltag.AprilTagSingleDetection;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,6 +26,7 @@ public class Webcam {
     private Servo rgbIndicator;
     private double targetDistance = 0;
     private double targetBearing = 180;
+    private double targetX = 0;
 
     public Webcam(HardwareMap hwMap, Telemetry telemetry){
         this.telemetry=telemetry;
@@ -77,25 +80,34 @@ public class Webcam {
         detectedTags=aprilTagProcessor.getDetections();
 
         targetDistance = 0;
+        targetX=0;
         targetBearing = 180;
 
-        for(AprilTagDetection detection: detectedTags){ /*
-            try {
-                //red goal: 24, blue goal: 20
-                if (detection.id == 24 || detection.id == 20) {
-                    targetDistance = detection.ftcPose.y;
-                    targetBearing = detection.ftcPose.bearing;
+        for (AprilTagDetection detection : detectedTags) {
+            if (detection instanceof AprilTagSingleDetection) {
+                continue;
+            } else {
+                AprilTagClusterDetection clusterDet = (AprilTagClusterDetection) detection;
+                telemetry.addLine(String.format("\n==== Tag Cluster (%s)", clusterDet.metadata.name));
+                telemetry.addLine(String.format("Percent tags found: %d", clusterDet.percentClusterFound));
+                telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
+                telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
+                telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
+                if (targetX==0 || Math.abs(detection.ftcPose.z)<Math.abs(targetX)){
+                    targetX=detection.ftcPose.x;
+                    targetDistance=detection.ftcPose.y;
+                    targetBearing=detection.ftcPose.bearing;
                 }
 
-                telemetry.addData(Integer.toString(detection.id), String.format("XYZB %6.1f %6.1f %6.1f %6.1f", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z, detection.ftcPose.bearing));
-            } catch (Exception e) {
-                //do nothing
-            }*/
-        }
+                telemetry.addData("targetZ", targetX);
+
+            }
+        }   // end for() loop
+
 
         // Control RGB
         if (targetDistance > 0) {
-            if (Math.abs(targetBearing) < 2) {
+            if (Math.abs(targetBearing) < 1) {
                 rgbIndicator.setPosition(0.500); // Green
             } else {
                 if (targetBearing>0){
@@ -105,8 +117,9 @@ public class Webcam {
                 }
             }
         } else {
-            rgbIndicator.setPosition(0.0); // Black
+            rgbIndicator.setPosition(0.1); // Black
         }
+
     }
 
     public double getTargetDistance() {
@@ -121,6 +134,7 @@ public class Webcam {
     public double getTargetBearing(){
         return targetBearing;
     }
+
 
 
 }

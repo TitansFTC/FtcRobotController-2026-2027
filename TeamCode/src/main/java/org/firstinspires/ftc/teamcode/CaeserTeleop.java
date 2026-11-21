@@ -13,6 +13,7 @@ public class  CaeserTeleop extends OpMode {
     private Feeders feeders = null;
     private Intake intake = null;
     private Webcam webcam = null;
+    private boolean useDash = true;
     int count1 =0;
     int count2=0;
     int count3=0;
@@ -29,20 +30,26 @@ public void init() {
     odometry = new Odometry(hardwareMap);
     yeeters = new Yeeters(hardwareMap);
     feeders = new Feeders(hardwareMap);
-    //webcam = new Webcam(hardwareMap, dashboardTelemetry);
+    webcam = new Webcam(hardwareMap, dashboardTelemetry);
+    if (useDash){
+        dashboard = FtcDashboard.getInstance();
+        dashboardTelemetry = dashboard.getTelemetry();
+    }
+    else{
+        dashboardTelemetry = telemetry;
+    }
 
-    dashboard = FtcDashboard.getInstance();
-    dashboardTelemetry = dashboard.getTelemetry();
+
 
     telemetry.addData("Status", "Initialized");
 }
 @Override
     public void loop()   {
-    //webcam.loop(dashboardTelemetry);
+    webcam.loop(dashboardTelemetry);
     odometry.loop(dashboardTelemetry);
     driveBase.loop(gamepad1, dashboardTelemetry);
     intake.loop(gamepad2, dashboardTelemetry);
-    yeeters.loop(gamepad2, dashboardTelemetry);
+    yeeters.loop(gamepad2, dashboardTelemetry, webcam.getTargetDistance());
     feeders.loop(gamepad2, dashboardTelemetry);
 
     /*

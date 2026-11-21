@@ -33,14 +33,16 @@ public class YeetersJr {
     public static final double NO_POWER_FRACTION = 0;
     public static final double[] TARGET_REACHED = {0, 0, 0, 0, 0};
     private DcMotorEx launcher = null;
-    private CRServoImpl spinner = null;
-
+    private CRServoImpl spinnerLeft = null;
+    private CRServoImpl spinnerRight = null;
     public static void sleep(int i) {
     }
 
     public YeetersJr(HardwareMap hardwareMap) {
         launcher = hardwareMap.get(DcMotorEx.class, "launcher");
-        spinner = hardwareMap.get(CRServoImpl.class, "spinner");
+        spinnerLeft = hardwareMap.get(CRServoImpl.class, "spinnerLeft");
+        spinnerRight = hardwareMap.get(CRServoImpl.class, "spinnerRight");
+
 
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(kP, kI, 0, kF);
         launcher.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
@@ -57,12 +59,16 @@ public class YeetersJr {
             yeeterTargetVelocity += 10;
         }
         double launcherPower = 0;
-        double spinnerPower = 0;
+        double spinnerLeftPower = 0;
+        double spinnerRightPower = 0;
         if (gamepad.b) {
-            spinnerPower = HALF_POWER_FRACTION;
+            spinnerLeftPower = HALF_POWER_FRACTION;
+            spinnerRightPower = -HALF_POWER_FRACTION;
+
         }
         else {
-            spinnerPower = 0;
+            spinnerLeftPower = 0;
+            spinnerRightPower = 0;
         }
         if (gamepad.left_trigger_pressed) {
             launcherPower = yeeterTargetVelocity;
@@ -71,17 +77,20 @@ public class YeetersJr {
             launcherPower = 0;
         }
         launcher.setVelocity(launcherPower);
-        spinner.setPower(spinnerPower);
+        spinnerLeft.setPower(spinnerLeftPower);
+        spinnerRight.setPower(-spinnerRightPower);
 
         telemetry.addData("yeeterTargetVelocity", yeeterTargetVelocity);
     }
         public void fire ( double power, int duration){
             launcher.setVelocity(yeeterTargetVelocity);
-            spinner.setPower(power);
+            spinnerLeft.setPower(power);
+            spinnerRight.setPower(-power);
             sleep(duration);
         }
         public void stop () {
             launcher.setVelocity(NO_POWER_FRACTION);
-            spinner.setPower(NO_POWER_FRACTION);
+            spinnerLeft.setPower(NO_POWER_FRACTION);
+            spinnerRight.setPower(NO_POWER_FRACTION);
         }
 }

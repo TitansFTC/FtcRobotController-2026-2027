@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.opencv.core.Mat;
 public class DriveBase {
     public static final double FAST_POWER_FRACTION = 1.0;
-        public static final double SLOW_POWER_FRACTION = 0.3;
+        public static final double SLOW_POWER_FRACTION = 0.4;
         public static final double HALF_POWER_FRACTION = 0.5;
     public static final double[] TARGET_REACHED = {0, 0, 0, 0, 0};
     public boolean Arrived = false;
@@ -158,7 +158,7 @@ public class DriveBase {
         }
 
         double distanceAway  = Math.sqrt(rel_tar_x*rel_tar_x + rel_tar_y*rel_tar_y);
-        double powerFraction = powerFraction = Math.max(0.1, Math.min(SLOW_POWER_FRACTION, distanceAway / 60));
+        double powerFraction = Math.max(0.15, Math.min(SLOW_POWER_FRACTION, distanceAway / 60));
 
         double lfp = ((-rel_pos_y + -rel_pos_x) + rel_angle);
         double lbp = ((-rel_pos_y +  rel_pos_x) + rel_angle);
