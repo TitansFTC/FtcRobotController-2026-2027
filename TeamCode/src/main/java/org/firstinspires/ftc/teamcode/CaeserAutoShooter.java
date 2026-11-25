@@ -29,6 +29,7 @@ public class CaeserAutoShooter extends LinearOpMode {
     private Intake intake = null;
     public Yeeters yeeter = null;
     public Feeders feeder = null;
+    private Webcam webcam = null;
     private static final double kP = 100;
     private static final double kI = 10;
     private static double kF = 13;
@@ -53,15 +54,16 @@ public class CaeserAutoShooter extends LinearOpMode {
         telemetry.addData("Status", "Starting");
 
         // Warm up Yeeters
-        yeeter.startYeeters();
+        feeder.backwards();
+        yeeter.startYeeters(1200);
         intake.holdPosition();
 
         // Move forward a small amount
-        driveBase.odoMoveLoop(0, -5, 0, dashboardTelemetry, odometry);
+        driveBase.odoMoveLoop(0, -5.5, 0, dashboardTelemetry, odometry);
         intake.holdPosition();
 
         // Warm up Yeeters
-        sleep(1000);
+        sleep(2000);
 
         // Shoot
         feeder.forwards();
@@ -73,7 +75,7 @@ public class CaeserAutoShooter extends LinearOpMode {
         intake.holdPosition();
 
         // Move forward to parking
-        driveBase.odoMoveLoop(-38, -85, 0, dashboardTelemetry, odometry);
+        driveBase.odoMoveLoop(-36, -85, 0, dashboardTelemetry, odometry);
         intake.holdPosition();
 
         driveBase.stop();

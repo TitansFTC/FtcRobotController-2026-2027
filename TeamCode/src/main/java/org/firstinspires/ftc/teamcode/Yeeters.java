@@ -21,7 +21,7 @@ public class Yeeters {
     private static final double yeeterDefault = 1205;
     private static final double yeeterFarVelocity = 1000;
     private boolean yeeterActive = true;
-    private double yeeterTargetVelocity = 1200;
+    private double yeeterTargetVelocity = yeeterDefault;
     public Yeeters(HardwareMap hardwareMap) {
         PIDFCoefficients pidfCoefficients = new PIDFCoefficients(kP, kI, 0, kF);
         yeeter = hardwareMap.get(DcMotorEx.class, "Yeeter");
@@ -37,10 +37,6 @@ public class Yeeters {
         }
         if (gamepad.dpadDownWasPressed()){
             yeeterTargetVelocity -= 5;
-        }
-        // Toggle Yeeter
-        if (gamepad.aWasPressed()) {
-            yeeterActive = !yeeterActive;
         }
 
         if (distance == 0) {
@@ -65,13 +61,10 @@ public class Yeeters {
     public boolean isReady() {
         return (Math.abs(yeeter.getVelocity()- yeeterTargetVelocity) < EPSILON * yeeterTargetVelocity);
     }
-    public void startYeeters() {
-        yeeter.setVelocity(yeeterTargetVelocity);
+    public void startYeeters(double velocity) {
+        yeeter.setVelocity(velocity);
     }
-    public void fire ( double power, int duration){
-        yeeter.setVelocity(yeeterTargetVelocity);
-        //sleep(duration);
-    }
+
     public void stop() {
         yeeter.setPower(0);
     }

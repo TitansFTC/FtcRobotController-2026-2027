@@ -123,7 +123,7 @@ public class DriveBase {
         telemetry.addData("rel_tar_T", rel_Heading);
 
         // Skip if we have reached target
-        if ((Math.abs(rel_tar_x) <= 1.5) && (Math.abs(rel_tar_y) <= 1.5) && (Math.abs(rel_Heading) <= 3)) {
+        if ((Math.sqrt(rel_tar_x * rel_tar_x + rel_tar_y * rel_tar_y) <= 1.5) && (Math.abs(rel_Heading) <= 3)) {
             leftFront.setPower(0);
             leftBack.setPower(0);
             rightBack.setPower(0);

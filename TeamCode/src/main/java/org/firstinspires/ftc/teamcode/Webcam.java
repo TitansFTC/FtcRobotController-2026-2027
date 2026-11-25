@@ -93,7 +93,7 @@ public class Webcam {
                 telemetry.addLine(String.format("XYZ %6.1f %6.1f %6.1f  (inch)", detection.ftcPose.x, detection.ftcPose.y, detection.ftcPose.z));
                 telemetry.addLine(String.format("PRY %6.1f %6.1f %6.1f  (deg)", detection.ftcPose.pitch, detection.ftcPose.roll, detection.ftcPose.yaw));
                 telemetry.addLine(String.format("RBE %6.1f %6.1f %6.1f  (inch, deg, deg)", detection.ftcPose.range, detection.ftcPose.bearing, detection.ftcPose.elevation));
-                if (targetX==0 || Math.abs(detection.ftcPose.z)<Math.abs(targetX)){
+                if (targetX==0 || Math.abs(detection.ftcPose.x)<Math.abs(targetX)){
                     targetX=detection.ftcPose.x;
                     targetDistance=detection.ftcPose.y;
                     targetBearing=detection.ftcPose.bearing;
@@ -130,6 +130,7 @@ public class Webcam {
             visionPortal.close();
         }
     }
+    public double getTargetX(){return targetX;}
 
     public double getTargetBearing(){
         return targetBearing;

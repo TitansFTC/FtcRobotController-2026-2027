@@ -26,7 +26,7 @@ public class YeetersJr {
 
     public static final double kF = 13;
 
-    private double yeeterTargetVelocity = 1270;
+    private double yeeterTargetVelocity = 1480;
     private boolean toggle = false;
     private boolean yeeterActive = false;
     private DcMotorEx YeeterJr = null;
@@ -35,6 +35,7 @@ public class YeetersJr {
     private DcMotorEx launcher = null;
     private CRServoImpl spinnerLeft = null;
     private CRServoImpl spinnerRight = null;
+    private boolean launcherActive = true;
     public static void sleep(int i) {
     }
 
@@ -62,23 +63,25 @@ public class YeetersJr {
         double spinnerLeftPower = 0;
         double spinnerRightPower = 0;
         if (gamepad.b) {
-            spinnerLeftPower = HALF_POWER_FRACTION;
-            spinnerRightPower = -HALF_POWER_FRACTION;
+            spinnerLeftPower = FAST_POWER_FRACTION;
+            spinnerRightPower = -FAST_POWER_FRACTION;
 
         }
         else {
             spinnerLeftPower = 0;
             spinnerRightPower = 0;
         }
-        if (gamepad.left_trigger_pressed) {
-            launcherPower = yeeterTargetVelocity;
+        if (gamepad.leftTriggerWasPressed()) {
+            launcherActive=!launcherActive;
         }
-        else {
-            launcherPower = 0;
+        if (launcherActive){
+            launcherPower=yeeterTargetVelocity;
+        }else{
+            launcherPower=0;
         }
         launcher.setVelocity(launcherPower);
         spinnerLeft.setPower(spinnerLeftPower);
-        spinnerRight.setPower(-spinnerRightPower);
+        spinnerRight.setPower(spinnerRightPower);
 
         telemetry.addData("yeeterTargetVelocity", yeeterTargetVelocity);
     }

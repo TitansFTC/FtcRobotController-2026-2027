@@ -29,6 +29,8 @@ public class CaeserAutoWaiter extends LinearOpMode {
     private Intake intake = null;
     public Yeeters yeeter = null;
     public Feeders feeder = null;
+    private Webcam webcam = null;
+
     private static final double kP = 100;
     private static final double kI = 10;
     private static double kF = 13;
@@ -39,6 +41,7 @@ public class CaeserAutoWaiter extends LinearOpMode {
         feeder = new Feeders(hardwareMap);
         odometry = new Odometry(hardwareMap);
         intake = new Intake(hardwareMap);
+        webcam = new Webcam(hardwareMap, telemetry);
 
         dashboard = FtcDashboard.getInstance();
         dashboardTelemetry = dashboard.getTelemetry();
@@ -51,24 +54,33 @@ public class CaeserAutoWaiter extends LinearOpMode {
         waitForStart();
 
         telemetry.addData("Status", "Starting");
+
         // Warm up Yeeters
-        yeeter.startYeeters();
+        feeder.backwards();
+        yeeter.startYeeters(1200);
         intake.holdPosition();
 
         // Move forward a small amount
-        driveBase.odoMoveLoop(0, -7.5, 0, dashboardTelemetry, odometry);
+        driveBase.odoMoveLoop(0, -6.0, 0, dashboardTelemetry, odometry);
         intake.holdPosition();
+        for(int i=0; i<10; i++){
+            sleep(1000);
+            webcam.loop(telemetry);
+        }
+        webcam.loop(telemetry);
 
         // Warm up Yeeters and wait
-        sleep(12000);
+        //sleep(12000);
 
         // Shoot
-        feeder.forwards();
-        sleep(3500);
-        feeder.backwards();
+        if (Math.abs(webcam.getTargetX())<3 && webcam.getTargetDistance()!=0) {
+            feeder.forwards();
+            sleep(3500);
+            feeder.backwards();
+        }
 
         // Move forward to parking
-        driveBase.odoMoveLoop(42    , -20, 0, dashboardTelemetry, odometry);
+        driveBase.odoMoveLoop(42, -15, 0, dashboardTelemetry, odometry);
         intake.holdPosition();
 
         driveBase.stop();
